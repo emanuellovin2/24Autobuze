@@ -5,8 +5,9 @@ import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useStore } from '@/lib/store';
 import { clock } from '@/lib/sim/clock';
-import { nearestStop } from '@/lib/search';
-import { iconId, registerBusIcons } from './busIcons';
+import { nearestStop, stopHit } from '@/lib/search';
+import { iconId, pinId, registerBusIcons } from './busIcons';
+import { minutesLabel } from '@/lib/format';
 import type { Vehicle } from '@/lib/types';
 
 const STYLE = {
@@ -25,40 +26,62 @@ export default function MapView() {
   const map = useRef<maplibregl.Map | null>(null);
   const ready = useRef(false);
   const fitted = useRef(false);
+  const lastRecentre = useRef(0);
 
   const net = useStore((s) => s.net);
   const sim = useStore((s) => s.sim);
   const theme = useStore((s) => s.theme);
   const selectedLine = useStore((s) => s.selectedLine);
   const selectedVehicle = useStore((s) => s.selectedVehicle);
-  const myStop = useStore((s) => s.myStop);
-  const destStop = useStore((s) => s.destStop);
+  const fromKey = useStore((s) => s.fromKey);
+  const destination = useStore((s) => s.destination);
+  const ride = useStore((s) => s.ride);
   const pickMode = useStore((s) => s.pickMode);
 
   function applyPick(key: string) {
     const st = useStore.getState();
-    if (st.pickMode === 'dest') st.setDestStop(key);
-    else st.setMyStop(key);
+    const stop = st.net?.stops.find((s) => s.key === key);
+    if (!stop) return;
+    if (st.pickMode === 'dest') st.setDestination(stopHit(stop));
+    else st.setOrigin(key);
   }
-
 
   /* ---------------- selecții ---------------- */
   function syncSelection() {
     const m = map.current;
     const st = useStore.getState();
-    if (!m || !ready.current || !st.net) return;
+    if (!m || !ready.current || !st.net || !st.sim) return;
 
     if (m.getLayer('routes-active')) m.setFilter('routes-active', ['==', ['get', 'line'], st.selectedLine ?? '___']);
-    if (m.getLayer('routes-line')) m.setPaintProperty('routes-line', 'line-opacity', st.selectedLine ? 0.18 : 0.75);
+    if (m.getLayer('routes-line')) m.setPaintProperty('routes-line', 'line-opacity', st.selectedLine ? 0.16 : 0.7);
 
+    // punctele importante ale călătoriei: de unde pleci, unde cobori, unde vrei să ajungi
     const picked: GeoJSON.Feature[] = [];
-    const mine = st.net.stops.find((s) => s.key === st.myStop);
-    const dest = st.net.stops.find((s) => s.key === st.destStop);
-    if (mine) picked.push({ type: 'Feature', properties: { color: '#2563eb' }, geometry: { type: 'Point', coordinates: [mine.lon, mine.lat] } });
-    if (dest) picked.push({ type: 'Feature', properties: { color: '#dc2626' }, geometry: { type: 'Point', coordinates: [dest.lon, dest.lat] } });
-    (m.getSource('picked') as maplibregl.GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: picked });
-  }
+    const point = (lon: number, lat: number, color: string, label: string) =>
+      picked.push({ type: 'Feature', properties: { color, label }, geometry: { type: 'Point', coordinates: [lon, lat] } });
 
+    const stop = (key: string | null | undefined) => st.net!.stops.find((s) => s.key === key);
+    const start = stop(st.ride ? st.ride.leg.fromKey : st.fromKey);
+    if (start) point(start.lon, start.lat, '#2563eb', st.ride ? 'urci aici' : 'ești aici');
+    const alight = st.ride ? stop(st.ride.leg.toKey) : null;
+    if (alight && st.ride) point(alight.lon, alight.lat, '#f59e0b', st.ride.final ? 'cobori aici' : 'schimbi aici');
+    if (st.destination) point(st.destination.lon, st.destination.lat, '#dc2626', st.destination.title);
+
+    (m.getSource('picked') as maplibregl.GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: picked });
+
+    // etapa curentă, desenată gros peste restul rețelei
+    const legPath = st.ride ? st.sim.pathBetween(st.ride.leg.line, st.ride.leg.dir, st.ride.leg.fromKey, st.ride.leg.toKey) : [];
+    (m.getSource('leg') as maplibregl.GeoJSONSource | undefined)?.setData(
+      legPath.length > 1
+        ? {
+            type: 'FeatureCollection',
+            features: [
+              { type: 'Feature', properties: { color: st.ride!.leg.color }, geometry: { type: 'LineString', coordinates: legPath } },
+            ],
+          }
+        : empty
+    );
+  }
 
   /* ---------------- straturile proprii ---------------- */
   /**
@@ -98,8 +121,10 @@ export default function MapView() {
     add('routes', { type: 'FeatureCollection', features: routes });
     add('stops', { type: 'FeatureCollection', features: stops });
     add('vehicles', empty);
+    add('leg', empty);
     add('trace', empty);
     add('picked', empty);
+    add('tracked', empty);
 
     function add(id: string, data: GeoJSON.FeatureCollection) {
       if (m!.getSource(id)) (m!.getSource(id) as maplibregl.GeoJSONSource).setData(data);
@@ -125,7 +150,7 @@ export default function MapView() {
       paint: {
         'line-color': ['get', 'color'],
         'line-width': ['interpolate', ['linear'], ['zoom'], 11, 1.6, 15, 4],
-        'line-opacity': 0.75,
+        'line-opacity': 0.7,
       },
     });
     layer({
@@ -136,7 +161,30 @@ export default function MapView() {
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       paint: {
         'line-color': ['get', 'color'],
-        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 4, 15, 9],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 3, 15, 6],
+        'line-opacity': 0.85,
+      },
+    });
+    // etapa aleasă: de unde urci până unde cobori
+    layer({
+      id: 'leg-casing',
+      type: 'line',
+      source: 'leg',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': dark ? '#0b1220' : '#ffffff',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 8, 15, 15],
+        'line-opacity': 0.9,
+      },
+    });
+    layer({
+      id: 'leg-line',
+      type: 'line',
+      source: 'leg',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'color'],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 5, 15, 10],
         'line-opacity': 1,
       },
     });
@@ -201,6 +249,26 @@ export default function MapView() {
       },
     });
     layer({
+      id: 'picked-label',
+      type: 'symbol',
+      source: 'picked',
+      minzoom: 12.5,
+      layout: {
+        'text-field': ['get', 'label'],
+        'text-size': 11,
+        'text-offset': [0, -1.4],
+        'text-anchor': 'bottom',
+        'text-font': ['Open Sans Semibold'],
+        'text-allow-overlap': false,
+        'text-optional': true,
+      },
+      paint: {
+        'text-color': ['get', 'color'],
+        'text-halo-color': dark ? '#0b1220' : '#ffffff',
+        'text-halo-width': 2,
+      },
+    });
+    layer({
       id: 'vehicles',
       type: 'symbol',
       source: 'vehicles',
@@ -211,13 +279,51 @@ export default function MapView() {
         'icon-ignore-placement': true,
       },
     });
+    // autobuzul urmărit: cerc pulsant + pin mare, ca să se vadă de la prima privire
+    layer({
+      id: 'tracked-halo',
+      type: 'circle',
+      source: 'tracked',
+      paint: {
+        'circle-radius': 18,
+        'circle-color': '#f59e0b',
+        'circle-opacity': 0.28,
+        'circle-stroke-color': '#f59e0b',
+        'circle-stroke-width': 2,
+        'circle-stroke-opacity': 0.5,
+      },
+    });
+    layer({
+      id: 'tracked-pin',
+      type: 'symbol',
+      source: 'tracked',
+      layout: {
+        'icon-image': ['get', 'icon'],
+        'icon-anchor': 'bottom',
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 11, 0.5, 14, 0.72, 17, 0.95],
+        'icon-allow-overlap': true,
+        'icon-ignore-placement': true,
+        'text-field': ['get', 'label'],
+        'text-size': 12,
+        'text-offset': [0, 0.9],
+        'text-anchor': 'top',
+        'text-font': ['Open Sans Semibold'],
+        'text-allow-overlap': true,
+        'text-ignore-placement': true,
+      },
+      paint: {
+        'text-color': dark ? '#fbbf24' : '#b45309',
+        'text-halo-color': dark ? '#0b1220' : '#ffffff',
+        'text-halo-width': 2.2,
+      },
+    });
 
     function layer(spec: maplibregl.LayerSpecification) {
       if (m!.getLayer(spec.id)) m!.removeLayer(spec.id);
       m!.addLayer(spec);
     }
 
-    for (const id of ['vehicles', 'stops-circle']) {
+    for (const id of ['vehicles', 'stops-circle', 'tracked-pin']) {
       m.on('mouseenter', id, () => (m.getCanvas().style.cursor = 'pointer'));
       m.on('mouseleave', id, () => (m.getCanvas().style.cursor = ''));
     }
@@ -258,7 +364,6 @@ export default function MapView() {
     }
   }
 
-
   /* ---------------- inițializare ---------------- */
   useEffect(() => {
     if (!ref.current || map.current) return;
@@ -287,7 +392,8 @@ export default function MapView() {
       ready.current = false;
       buildLayers();
     });
-
+    // cât timp omul se plimbă singur pe hartă nu îi mutăm cadrul sub deget
+    m.on('dragstart', () => (lastRecentre.current = Date.now() + 15000));
 
     // containerul își capătă dimensiunea reală după montare (și se schimbă la
     // rotirea telefonului sau la redimensionarea ferestrei)
@@ -340,27 +446,69 @@ export default function MapView() {
       if (!m || !ready.current) return;
       const t = clock.now();
       const st = useStore.getState();
+      const trackedId = st.ride ? st.ride.leg.vehicleId : st.selectedVehicle;
 
       const vehicles = sim.vehiclesAt(t);
-      const features: GeoJSON.Feature[] = vehicles.map((v: Vehicle) => ({
-        type: 'Feature',
-        properties: {
-          id: v.id,
-          line: v.line,
-          icon: iconId(v.line, v.id === st.selectedVehicle, !!st.selectedLine && st.selectedLine !== v.line),
-          bearing: v.bearing,
-        },
-        geometry: { type: 'Point', coordinates: [v.lon, v.lat] },
-      }));
-      (m.getSource('vehicles') as maplibregl.GeoJSONSource | undefined)?.setData({
-        type: 'FeatureCollection',
-        features,
-      });
+      const features: GeoJSON.Feature[] = [];
+      let tracked: Vehicle | null = null;
+      for (const v of vehicles) {
+        if (v.id === trackedId) {
+          tracked = v;
+          continue; // autobuzul urmărit se desenează cu pin, nu cu cerc
+        }
+        features.push({
+          type: 'Feature',
+          properties: {
+            id: v.id,
+            line: v.line,
+            icon: iconId(v.line, false, !!trackedId || (!!st.selectedLine && st.selectedLine !== v.line)),
+            bearing: v.bearing,
+          },
+          geometry: { type: 'Point', coordinates: [v.lon, v.lat] },
+        });
+      }
+      (m.getSource('vehicles') as maplibregl.GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features });
+
+      /* ---- autobuzul urmărit: pin, halo pulsant și drumul până la tine ---- */
+      const trackedSrc = m.getSource('tracked') as maplibregl.GeoJSONSource | undefined;
+      if (trackedSrc) {
+        if (tracked) {
+          const waitStop = st.ride ? st.ride.leg.fromKey : st.fromKey;
+          const eta = waitStop ? sim.etaOf(tracked, waitStop, t) : null;
+          const goal = st.ride && (eta == null || eta <= 0) ? st.ride.leg.toKey : waitStop;
+          const goalEta = goal ? sim.etaOf(tracked, goal, t) : null;
+          trackedSrc.setData({
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: {
+                  id: tracked.id,
+                  icon: pinId(tracked.line),
+                  label: goalEta != null ? minutesLabel(goalEta) : `linia ${tracked.line}`,
+                },
+                geometry: { type: 'Point', coordinates: [tracked.lon, tracked.lat] },
+              },
+            ],
+          });
+          if (m.getLayer('tracked-halo')) {
+            const pulse = 16 + 7 * (1 + Math.sin(Date.now() / 380)) * 0.5;
+            m.setPaintProperty('tracked-halo', 'circle-radius', pulse);
+          }
+          // dacă autobuzul iese din cadru, îl aducem înapoi (fără să smucim harta)
+          if (Date.now() > lastRecentre.current && !m.getBounds().contains([tracked.lon, tracked.lat])) {
+            lastRecentre.current = Date.now() + 4000;
+            m.easeTo({ center: [tracked.lon, tracked.lat], duration: 1200 });
+          }
+        } else {
+          trackedSrc.setData(empty);
+        }
+      }
 
       const src = m.getSource('trace') as maplibregl.GeoJSONSource | undefined;
       if (src) {
-        const v = st.selectedVehicle ? vehicles.find((x) => x.id === st.selectedVehicle) : null;
-        const path = v && st.myStop ? sim.pathTo(v, st.myStop) : [];
+        const waitStop = st.ride ? st.ride.leg.fromKey : st.fromKey;
+        const path = tracked && waitStop ? sim.pathTo(tracked, waitStop) : [];
         src.setData(
           path.length > 1
             ? { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: path } }] }
@@ -371,13 +519,13 @@ export default function MapView() {
     return () => clearInterval(id);
   }, [sim]);
 
-  useEffect(syncSelection, [selectedLine, myStop, destStop, selectedVehicle, net]);
+  useEffect(syncSelection, [selectedLine, fromKey, destination, selectedVehicle, ride, net]);
 
   /* încadrează traseul liniei alese */
   useEffect(() => {
     const m = map.current;
     const st = useStore.getState();
-    if (!m || !selectedLine || !st.net) return;
+    if (!m || !selectedLine || st.ride || !st.net) return;
     const line = st.net.lines.find((l) => l.ref === selectedLine);
     if (!line) return;
     const b = new maplibregl.LngLatBounds();
@@ -385,14 +533,31 @@ export default function MapView() {
     m.fitBounds(b, { padding: { top: 80, bottom: 120, left: 60, right: 60 }, duration: 900 });
   }, [selectedLine]);
 
-  /* centrează pe stația aleasă */
+  /* la alegerea unui autobuz, arătăm dintr-o privire tot drumul acelei etape */
   useEffect(() => {
     const m = map.current;
     const st = useStore.getState();
-    if (!m || !myStop || !st.net) return;
-    const s = st.net.stops.find((x) => x.key === myStop);
+    if (!m || !ride || !st.net || !st.sim) return;
+    const path = st.sim.pathBetween(ride.leg.line, ride.leg.dir, ride.leg.fromKey, ride.leg.toKey);
+    const v = st.sim.vehicleById(ride.leg.vehicleId, clock.now());
+    const b = new maplibregl.LngLatBounds();
+    for (const c of path) b.extend(c as [number, number]);
+    if (v) b.extend([v.lon, v.lat]);
+    if (!b.isEmpty()) {
+      lastRecentre.current = Date.now() + 6000;
+      m.fitBounds(b, { padding: { top: 150, bottom: 260, left: 40, right: 40 }, duration: 900, maxZoom: 15.5 });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ride?.leg.vehicleId]);
+
+  /* centrează pe stația de plecare aleasă */
+  useEffect(() => {
+    const m = map.current;
+    const st = useStore.getState();
+    if (!m || !fromKey || st.ride || !st.net) return;
+    const s = st.net.stops.find((x) => x.key === fromKey);
     if (s) m.easeTo({ center: [s.lon, s.lat], zoom: Math.max(m.getZoom(), 14.5), duration: 800 });
-  }, [myStop]);
+  }, [fromKey]);
 
   useEffect(() => {
     const m = map.current;

@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // copii minificate ale bibliotecii MapLibre, servite ca fișiere statice
     "public/maplibre/**",
+    // service worker: JS simplu, cu API-uri de service worker
+    "public/sw.js",
     "data/**",
   ]),
 ]);

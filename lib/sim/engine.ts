@@ -275,6 +275,16 @@ export class Simulation {
     return slice(pd.dir.shape, pd.cum, from, to);
   }
 
+  /** porțiunea de traseu dintre două stații ale aceleiași linii — etapa desenată pe hartă */
+  pathBetween(lineRef: string, dirId: DirId, fromKey: string, toKey: string): [number, number][] {
+    const pd = this.dirs.get(`${lineRef}|${dirId}`);
+    if (!pd) return [];
+    const i = pd.stopKeys.indexOf(fromKey);
+    const j = pd.stopKeys.indexOf(toKey, i + 1);
+    if (i < 0 || j < 0) return [];
+    return slice(pd.dir.shape, pd.cum, pd.dir.stops[i].d, pd.dir.stops[j].d);
+  }
+
   /** în cât timp ajunge acest autobuz în stația dată (secunde), sau null dacă a trecut deja */
   etaOf(vehicle: Vehicle, stopKey: string, ms: number): number | null {
     const pd = this.dirs.get(`${vehicle.line}|${vehicle.dir}`);

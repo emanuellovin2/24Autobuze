@@ -1,6 +1,6 @@
-# Autobuze Bacău — hartă live
+# Autobuze Bacău — unde vrei să ajungi?
 
-Aplicație web care arată, pe harta orașului Bacău, **unde se află autobuzele, prin ce stații trec și în cât timp ajung în stația ta**.
+Aplicație instalabilă pe telefon (PWA) care răspunde la o singură întrebare: **spui unde vrei să ajungi, ea îți spune ce autobuz te duce primul acolo și ți-l arată pe hartă până cobori** — inclusiv schimbul, dacă e nevoie de unul.
 
 Este un **proiect conceptual**: autobuzele din Bacău nu au (încă) GPS public, așa că pozițiile sunt calculate de o simulare care rulează în browser, pornind de la orarele reale ale operatorului. Nu există server și nici bază de date — tot ce vezi se calculează pe dispozitivul tău.
 
@@ -8,18 +8,35 @@ Este un **proiect conceptual**: autobuzele din Bacău nu au (încă) GPS public,
 
 ---
 
-## Ce face
+## Cum se folosește
+
+Aplicația are un singur fir, cel pe care îl are și călătorul în cap:
+
+1. **„Unde vrei să ajungi?”** — bara de jos. O atingi și apar locurile căutate des din Bacău (gara, mall, spital, piața, universitatea) și un câmp în care poți scrie strada, stația sau reperul. Tot acolo spui **unde te afli acum**: scrii strada ori stația, lași telefonul să găsească stația cea mai apropiată, sau atingi harta.
+2. **Ce autobuze te duc acolo** — apar toate variantele, **ordonate după care te duce primul**, cu linia, direcția, în câte minute vine autobuzul și la ce oră ajungi. Variantele cu schimbare sunt marcate ca atare.
+3. **Autobuzul ales** — după ce îl atingi, apare pe hartă cu **un pin portocaliu mare**, cu minutele scrise sub el și cu un halou care pulsează, ca să nu îl pierzi din ochi. Etapa (de unde urci până unde cobori) e desenată gros peste rețea; harta îl readuce singură în cadru dacă iese.
+4. **Cardul din colțul ecranului** — cât mai durează până la destinație și toată ruta, inclusiv schimbul: etapele parcurse bifate, cea curentă marcată „acum”, ce urmează în gri.
+5. **La schimb** — când autobuzul ajunge în stația unde trebuie să cobori, aplicația întreabă **„Vrei să continui ruta?”**. Dacă apeși *nu*, se ia de la zero. Dacă apeși *da*, apar autobuzele care pleacă din acea stație în direcția destinației, cu timpii lor — exact ca la pasul 2 — și, după ce alegi, din nou pinul pe hartă. La fel la fiecare schimb.
+
+În afara călătoriei, două panouri secundare: **Stația mea** (panoul de sosiri, ca afișajul din stație) și **Toate liniile** (traseele și stațiile fiecărei linii).
+
+## Aplicație instalabilă (PWA)
+
+Se instalează pe ecranul principal, ca o aplicație obișnuită: manifest, iconițe proprii, ecran fără bara browserului. Un service worker (`public/sw.js`) ține în telefon rețeaua, orarele și codul aplicației, iar fundalul de hartă rămâne salvat pentru zonele deja vizitate — deci în autobuz, cu semnal slab, aplicația tot pornește.
+
+Butonul „Instalează” apare singur pe Android/desktop; pe iPhone se folosește *Partajează → Adaugă pe ecranul principal*. Service worker-ul se înregistrează doar în build-ul de producție (`npm run build && npm start`), ca dezvoltarea să nu servească fișiere vechi.
+
+Iconițele se regenerează cu `node scripts/make-icons.mjs` (desenate în cod, fără dependențe; rezultatul e comis în repo).
+
+## Ce mai are
 
 | | |
 |---|---|
 | **Harta completă** | Toate cele 14 linii urbane, cu traseele desenate pe străzile reale ale Bacăului, și toate cele 82 de stații. |
-| **Autobuze live** | Cercuri verzi cu numărul liniei, care se deplasează în timp real pe traseu. Atingi unul și vezi unde e, cât a parcurs, ce întârziere are și cât mai are până la tine. |
-| **Stația mea** | Alegi stația (căutare, atingere pe hartă, sau locația telefonului) și primești un panou de sosiri ca cel din stație: linia, direcția, minutele rămase, întârzierea, gradul de aglomerare. |
-| **Unde vrei să ajungi** | Scrii un reper cunoscut — „mall”, „gară”, „spital”, „Luceafărul”, „Auchan” — sau atingi direct locul pe hartă. Aplicația găsește liniile directe, iar dacă nu există, calculează o rută **cu o singură schimbare**, cu tot cu timpul de așteptare. |
-| **Comenzi de timp** | Ceasul simulării poate fi pus pe pauză, accelerat (×5, ×20) sau mutat la o anumită oră — util ca să arăți ora de vârf într-o prezentare de câteva secunde. |
-| **Telefon și desktop** | Pe desktop: panou lateral plus hartă mare, pentru vizibilitate în prezentare. Pe telefon: hartă pe tot ecranul cu panou glisant, exact cum ar folosi-o un călător. |
-
----
+| **Autobuze live** | Cercuri verzi cu numărul liniei, care se deplasează în timp real pe traseu. Atingi unul și vezi unde e, ce întârziere are și cât mai are până la tine. |
+| **Repere, nu doar stații** | Scrii „mall”, „gară”, „spital”, „Luceafărul”, „Auchan”. Pentru un reper, aplicația alege singură stația de coborâre care te duce cel mai repede acolo, cu tot cu minutele de mers pe jos. |
+| **Comenzi de timp** | Ceasul simulării poate fi pus pe pauză, accelerat (×5, ×20) sau mutat la o anumită oră — util ca să vezi o călătorie întreagă, cu schimb cu tot, în câteva secunde. |
+| **Telefon și desktop** | Pe telefon: hartă pe tot ecranul și panoul călătoriei jos, sub degetul mare. Pe desktop: panou lateral plus hartă mare. |
 
 ## Ce este real și ce este simulat
 
@@ -58,7 +75,9 @@ Codul este împărțit astfel încât înlocuirea simulării cu date reale să �
 ```
 lib/sim/engine.ts     poziții, sosiri, ETA        <- aici ar intra fluxul GPS / GTFS-Realtime
 lib/sim/planner.ts    rute directe și cu un schimb
+lib/sim/ride.ts       starea cursei alese (aștept / sunt în autobuz / am coborât)
 lib/sim/clock.ts      ceasul simulării
+lib/store.ts          firul călătoriei: căutare → opțiuni → urmărire → schimb
 components/MapView.tsx  randare MapLibre
 ```
 

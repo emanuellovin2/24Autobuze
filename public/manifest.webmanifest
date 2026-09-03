@@ -1,0 +1,19 @@
+{
+  "name": "Autobuze Bacău",
+  "short_name": "Autobuze",
+  "description": "Unde vrei să ajungi? Alegi destinația, vezi ce autobuz ajunge primul și îl urmărești pe hartă până cobori.",
+  "lang": "ro",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f7f9",
+  "theme_color": "#16a34a",
+  "categories": ["travel", "navigation", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

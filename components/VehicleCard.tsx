@@ -10,7 +10,7 @@ export default function VehicleCard() {
   const sim = useStore((s) => s.sim);
   const net = useStore((s) => s.net);
   const id = useStore((s) => s.selectedVehicle);
-  const myStop = useStore((s) => s.myStop);
+  const myStop = useStore((s) => s.fromKey);
   const selectVehicle = useStore((s) => s.selectVehicle);
   const t = useTick(1);
 

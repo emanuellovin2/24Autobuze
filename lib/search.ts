@@ -1,4 +1,5 @@
 import type { Landmark, Network, Stop } from './types';
+import type { Target } from './sim/planner';
 import { fold } from './format';
 
 export interface SearchHit {
@@ -10,7 +11,70 @@ export interface SearchHit {
   lon: number;
   lat: number;
   walk?: number;
+  /** toate stațiile din care se poate ajunge pe jos aici — planificatorul o alege pe cea mai bună */
+  targets: Target[];
   score: number;
+}
+
+/** un reper cunoscut, gata de folosit ca destinație */
+export function landmarkHit(l: Landmark, net: Network): SearchHit {
+  const near = l.stops[0];
+  return {
+    kind: 'landmark',
+    stopKey: near.key,
+    title: l.name,
+    subtitle: `${l.cat} · stația ${stopName(net, near.key)}`,
+    lon: l.lon,
+    lat: l.lat,
+    walk: near.walk,
+    targets: l.stops.slice(0, 3).map((s) => ({ key: s.key, walk: s.walk })),
+    score: 0,
+  };
+}
+
+/** o stație, ca destinație */
+export function stopHit(s: Stop): SearchHit {
+  return {
+    kind: 'stop',
+    stopKey: s.key,
+    title: s.name,
+    subtitle: `stație · liniile ${s.lines.join(', ')}`,
+    lon: s.lon,
+    lat: s.lat,
+    targets: [{ key: s.key, walk: 0 }],
+    score: 0,
+  };
+}
+
+/** reperele pe care le caută cei mai mulți oameni — se arată înainte de a scrie ceva */
+const POPULAR = [
+  'gara bacau',
+  'arena mall',
+  'piata centrala',
+  'spitalul judetean de urgenta',
+  'supernova bacau fost cora',
+  'autogara bacau',
+  'auchan',
+  'universitatea vasile alecsandri',
+  'stadionul municipal',
+  'complex luceafarul',
+  'insula de agrement',
+  'cartier serbanesti',
+];
+
+export function popularDestinations(net: Network, limit = 12): SearchHit[] {
+  const byName = new Map(net.landmarks.map((l) => [fold(l.name), l]));
+  const out: SearchHit[] = [];
+  for (const name of POPULAR) {
+    const l = byName.get(name);
+    if (l && l.stops.length) out.push(landmarkHit(l, net));
+  }
+  // dacă datele se schimbă și un reper dispare, completăm cu ce e în rețea
+  for (const l of net.landmarks) {
+    if (out.length >= limit) break;
+    if (l.stops.length && !out.some((h) => h.title === l.name)) out.push(landmarkHit(l, net));
+  }
+  return out.slice(0, limit);
 }
 
 /**
@@ -32,31 +96,13 @@ export function buildSearchIndex(net: Network) {
     for (const { l, hay } of marks) {
       const score = match(hay, q);
       if (score <= 0 || !l.stops.length) continue;
-      const near = l.stops[0];
-      hits.push({
-        kind: 'landmark',
-        stopKey: near.key,
-        title: l.name,
-        subtitle: `${l.cat} · stația ${stopName(net, near.key)}`,
-        lon: l.lon,
-        lat: l.lat,
-        walk: near.walk,
-        score: score + 0.35, // reperele cunoscute bat numele oficiale de stații
-      });
+      hits.push({ ...landmarkHit(l, net), score: score + 0.35 }); // reperele cunoscute bat numele oficiale de stații
     }
 
     for (const { s, hay } of stops) {
       const score = match(hay, q);
       if (score <= 0) continue;
-      hits.push({
-        kind: 'stop',
-        stopKey: s.key,
-        title: s.name,
-        subtitle: `stație · liniile ${s.lines.join(', ')}`,
-        lon: s.lon,
-        lat: s.lat,
-        score,
-      });
+      hits.push({ ...stopHit(s), score });
     }
 
     const seen = new Set<string>();

@@ -10,8 +10,8 @@ export default function LinesPanel() {
   const sim = useStore((s) => s.sim);
   const selectedLine = useStore((s) => s.selectedLine);
   const selectLine = useStore((s) => s.selectLine);
-  const setMyStop = useStore((s) => s.setMyStop);
-  const myStop = useStore((s) => s.myStop);
+  const setOrigin = useStore((s) => s.setOrigin);
+  const fromKey = useStore((s) => s.fromKey);
   const t = useTick(1);
 
   const vehicles = useMemo(() => (sim ? sim.vehiclesAt(t) : []), [sim, t]);
@@ -56,9 +56,9 @@ export default function LinesPanel() {
                 return (
                   <li key={s.key + dir.id} className="relative">
                     <button
-                      onClick={() => setMyStop(s.key)}
+                      onClick={() => setOrigin(s.key)}
                       className={`flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left transition hover:bg-black/[0.04] dark:hover:bg-white/[0.06] ${
-                        myStop === s.key ? 'bg-black/[0.05] dark:bg-white/[0.08]' : ''
+                        fromKey === s.key ? 'bg-black/[0.05] dark:bg-white/[0.08]' : ''
                       }`}
                     >
                       <span

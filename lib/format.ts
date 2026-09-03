@@ -57,6 +57,24 @@ export function walkLabel(metres: number): string {
   return `${min} min pe jos`;
 }
 
+/** emoji pentru categoria unui reper — ajută ochiul să găsească rapid în listă */
+const CAT_ICON: Record<string, string> = {
+  'cumpărături': '🛍️',
+  'piețe': '🧺',
+  transport: '🚉',
+  'sănătate': '🏥',
+  'sport & agrement': '🌳',
+  'educație': '🎓',
+  'instituții': '🏛️',
+  'cultură': '🎭',
+  repere: '📌',
+  cartiere: '🏘️',
+};
+
+export function catIcon(subtitle: string): string {
+  return CAT_ICON[subtitle.split(' · ')[0]] ?? '📍';
+}
+
 /** căutare tolerantă la diacritice */
 export function fold(s: string): string {
   return s

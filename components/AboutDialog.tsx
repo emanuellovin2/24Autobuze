@@ -23,9 +23,10 @@ export default function AboutDialog() {
 
         <div className="flex flex-col gap-4 text-sm leading-relaxed">
           <p>
-            O hartă live a autobuzelor din Bacău: vezi unde se află fiecare autobuz, prin ce stații trece și în cât timp
-            ajunge la tine. Este un <strong>concept demonstrativ</strong> — autobuzele nu au încă GPS, așa că pozițiile
-            sunt calculate de o simulare care rulează în browserul tău.
+            Spui unde vrei să ajungi, aplicația îți arată ce autobuze te duc acolo — ordonate după care ajunge primul —
+            și îl urmărește pe cel ales, cu pin pe hartă, până cobori; la schimb te întreabă dacă vrei să continui ruta.
+            Este un <strong>concept demonstrativ</strong> — autobuzele nu au încă GPS, așa că pozițiile sunt calculate
+            de o simulare care rulează în browserul tău.
           </p>
 
           <div className="rounded-xl border p-4" style={{ borderColor: 'var(--line)' }}>
@@ -53,6 +54,15 @@ export default function AboutDialog() {
               Fiecare cursă din orar are o oră de plecare și o durată. Simularea distribuie durata pe traseu, proporțional
               cu distanța, adăugând timpul de staționare în stații. Din aceeași formulă rezultă și punctul desenat pe
               hartă, și minutele afișate în panoul de sosiri — deci cele două nu se pot contrazice niciodată.
+            </p>
+          </div>
+
+          <div>
+            <p className="mb-1 font-semibold">Instalare pe telefon</p>
+            <p className="muted">
+              Aplicația poate fi pusă pe ecranul principal (pe Android/desktop apare butonul „Instalează”, pe iPhone din
+              <em> Partajează → Adaugă pe ecranul principal</em>). După instalare, rețeaua, orarele și zonele de hartă
+              deja vizitate rămân în telefon, deci pornește și cu semnal slab.
             </p>
           </div>
 
