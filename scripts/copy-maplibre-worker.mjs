@@ -2,6 +2,10 @@
  * MapLibre își pornește workerul cu `new URL('./maplibre-gl-worker.mjs', import.meta.url)`,
  * iar Turbopack nu servește acel fișier — harta rămâne albă, fără dale.
  * Copiem workerul și modulul lui comun în public/ și îi spunem explicit adresa.
+ *
+ * Fișierele rezultate sunt comise în repo intenționat: nu vrem ca harta să depindă
+ * de ordinea în care platforma de hosting colectează `public/` față de build.
+ * Scriptul rulează la `npm run dev` și `npm run build` ca să le țină la zi.
  */
 import fs from 'node:fs';
 import path from 'node:path';

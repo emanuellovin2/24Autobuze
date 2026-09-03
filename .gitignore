@@ -39,7 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-public/maplibre/
 
 # cache-uri ale pipeline-ului de date (se refac cu `npm run data:all`)
 data/.route-cache/
