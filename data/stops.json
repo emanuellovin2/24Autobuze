@@ -1,0 +1,960 @@
+[
+ {
+  "key": "ara",
+  "name": "A.R.A.",
+  "lon": 26.91091,
+  "lat": 46.591998,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "aerostar",
+  "name": "Aerostar",
+  "lon": 26.919922,
+  "lat": 46.531484,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "agricola",
+  "name": "Agricola",
+  "lon": 26.904813,
+  "lat": 46.600683,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "aprod purice",
+  "name": "Aprod Purice",
+  "lon": 26.9093,
+  "lat": 46.5812,
+  "lines": [
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "arcadie septilici 28",
+  "name": "Arcadie Șeptilici nr. 28",
+  "lon": 26.878952,
+  "lat": 46.570307,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "arcadie septilici 5",
+  "name": "Arcadie Șeptilici nr. 5",
+  "lon": 26.883436,
+  "lat": 46.561421,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "auchan",
+  "name": "Auchan",
+  "lon": 26.9292,
+  "lat": 46.51059,
+  "lines": [
+   "17B",
+   "18B",
+   "22B",
+   "22S"
+  ]
+ },
+ {
+  "key": "autogara",
+  "name": "Autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "lines": [
+   "5",
+   "6",
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "baia publica",
+  "name": "Baia Publică",
+  "lon": 26.923194,
+  "lat": 46.572118,
+  "lines": [
+   "5",
+   "6"
+  ]
+ },
+ {
+  "key": "banca transilvania",
+  "name": "Banca Transilvania",
+  "lon": 26.916784,
+  "lat": 46.566797,
+  "lines": [
+   "3",
+   "4",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "bazar letea",
+  "name": "Bazar Letea",
+  "lon": 26.92063,
+  "lat": 46.54172,
+  "lines": [
+   "14"
+  ]
+ },
+ {
+  "key": "bancii",
+  "name": "Băncii",
+  "lon": 26.907855,
+  "lat": 46.575345,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "bcr",
+  "name": "BCR",
+  "lon": 26.915669,
+  "lat": 46.56894,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "biserica precista",
+  "name": "Biserica Precista",
+  "lon": 26.9148,
+  "lat": 46.5652,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "bus selena",
+  "name": "Bus Selena",
+  "lon": 26.896501,
+  "lat": 46.570716,
+  "lines": [
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "calea barladului 151",
+  "name": "Calea Barladului nr.151",
+  "lon": 26.949109,
+  "lat": 46.584208,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea barladului 164",
+  "name": "Calea Barladului nr.164",
+  "lon": 26.95092,
+  "lat": 46.584716,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea barladului 206",
+  "name": "Calea Barladului nr.206",
+  "lon": 26.955185,
+  "lat": 46.585909,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea barladului 23",
+  "name": "Calea Barladului nr.23",
+  "lon": 26.931281,
+  "lat": 46.579198,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea barladului 78",
+  "name": "Calea Barladului nr.78",
+  "lon": 26.938936,
+  "lat": 46.581359,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea barladului 83",
+  "name": "Calea Barladului nr.83",
+  "lon": 26.939633,
+  "lat": 46.581554,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "calea romanului 166",
+  "name": "Calea Romanului nr. 166",
+  "lon": 26.930409,
+  "lat": 46.592502,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 185",
+  "name": "Calea Romanului nr. 185",
+  "lon": 26.930479,
+  "lat": 46.594466,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 192",
+  "name": "Calea Romanului nr. 192",
+  "lon": 26.930516,
+  "lat": 46.595189,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 215",
+  "name": "Calea Romanului nr. 215",
+  "lon": 26.930622,
+  "lat": 46.597567,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 216",
+  "name": "Calea Romanului nr. 216",
+  "lon": 26.930627,
+  "lat": 46.59767,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 235",
+  "name": "Calea Romanului nr. 235",
+  "lon": 26.930685,
+  "lat": 46.599635,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "calea romanului 49",
+  "name": "Calea Romanului nr. 49",
+  "lon": 26.930005,
+  "lat": 46.580405,
+  "lines": [
+   "5",
+   "6"
+  ]
+ },
+ {
+  "key": "calea romanului 62",
+  "name": "Calea Romanului nr. 62",
+  "lon": 26.930006,
+  "lat": 46.58175,
+  "lines": [
+   "5",
+   "6"
+  ]
+ },
+ {
+  "key": "capu dealului",
+  "name": "Capu Dealului",
+  "lon": 26.95519,
+  "lat": 46.58591,
+  "lines": [
+   "6"
+  ]
+ },
+ {
+  "key": "cartier cfr",
+  "name": "Cartier CFR",
+  "lon": 26.887227,
+  "lat": 46.564586,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "cartier fiald",
+  "name": "Cartier FIALD",
+  "lon": 26.90332,
+  "lat": 46.58251,
+  "lines": [
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "catedrala ortodoxa",
+  "name": "Catedrala Ortodoxă",
+  "lon": 26.91072,
+  "lat": 46.57012,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "centrul militar",
+  "name": "Centrul Militar",
+  "lon": 26.904,
+  "lat": 46.565,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "chimiei",
+  "name": "Chimiei",
+  "lon": 26.918699,
+  "lat": 46.535094,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "nv karpen",
+  "name": "Colegiul N.V. Karpen",
+  "lon": 26.896862,
+  "lat": 46.570609,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "complex serbanesti",
+  "name": "Complex Șerbănești",
+  "lon": 26.92994,
+  "lat": 46.57395,
+  "lines": [
+   "5",
+   "6"
+  ]
+ },
+ {
+  "key": "cora",
+  "name": "Cora",
+  "lon": 26.9219,
+  "lat": 46.5625,
+  "lines": [
+   "4",
+   "5",
+   "14"
+  ]
+ },
+ {
+  "key": "curtea de apel",
+  "name": "Curtea de Apel",
+  "lon": 26.91584,
+  "lat": 46.575411,
+  "lines": [
+   "4",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "ecaterina teodoroiu",
+  "name": "Ecaterina Teodoroiu",
+  "lon": 26.906339,
+  "lat": 46.598547,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "elbac",
+  "name": "Elbac",
+  "lon": 26.874259,
+  "lat": 46.578333,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "energiei 2",
+  "name": "Energiei nr. 2",
+  "lon": 26.903643,
+  "lat": 46.567418,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "energiei 25",
+  "name": "Energiei nr. 25",
+  "lon": 26.901112,
+  "lat": 46.568501,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "energiei 36",
+  "name": "Energiei nr. 36",
+  "lon": 26.897928,
+  "lat": 46.569604,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "energiei 39",
+  "name": "Energiei nr. 39",
+  "lon": 26.897024,
+  "lat": 46.569917,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "exim group",
+  "name": "Exim-Group",
+  "lon": 26.920489,
+  "lat": 46.529811,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "fabrica de bere",
+  "name": "Fabrica de bere",
+  "lon": 26.883438,
+  "lat": 46.57539,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "fnc",
+  "name": "FNC",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "22",
+   "22B",
+   "22S"
+  ]
+ },
+ {
+  "key": "gara",
+  "name": "Gară",
+  "lon": 26.8951,
+  "lat": 46.56589,
+  "lines": [
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "holding agricola",
+  "name": "Holding Agricola",
+  "lon": 26.911284,
+  "lat": 46.5916,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "il caragiale",
+  "name": "I.L. Caragiale",
+  "lon": 26.9223,
+  "lat": 46.568,
+  "lines": [
+   "14"
+  ]
+ },
+ {
+  "key": "intersectia izvoare",
+  "name": "Intersecția Izvoare",
+  "lon": 26.92412,
+  "lat": 46.55533,
+  "lines": [
+   "14"
+  ]
+ },
+ {
+  "key": "jumbo",
+  "name": "Jumbo",
+  "lon": 26.92692,
+  "lat": 46.50368,
+  "lines": [
+   "18J",
+   "22J"
+  ]
+ },
+ {
+  "key": "mioritei",
+  "name": "Mioriței",
+  "lon": 26.913909,
+  "lat": 46.573973,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "narcisa",
+  "name": "Narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "nicu enea",
+  "name": "Nicu Enea",
+  "lon": 26.9187,
+  "lat": 46.5743,
+  "lines": [
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "pambac",
+  "name": "Pambac",
+  "lon": 26.89533,
+  "lat": 46.5704,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "parcul trandafirilor",
+  "name": "Parcul Trandafirilor",
+  "lon": 26.908,
+  "lat": 46.566,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "pasaj letea",
+  "name": "Pasaj Letea – Orizont",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "petromv",
+  "name": "Petrom Mioriței",
+  "lon": 26.904696,
+  "lat": 46.574214,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B"
+  ]
+ },
+ {
+  "key": "piata centrala",
+  "name": "Piața Centrală",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "lines": [
+   "3",
+   "4",
+   "5",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "piata sud",
+  "name": "Piața Sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "pod bistrita",
+  "name": "Pod Bistrița",
+  "lon": 26.92649,
+  "lat": 46.572973,
+  "lines": [
+   "5",
+   "6"
+  ]
+ },
+ {
+  "key": "podul cu lanturi",
+  "name": "Podul cu lanțuri",
+  "lon": 26.916391,
+  "lat": 46.576709,
+  "lines": [
+   "4",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "policlinica veche",
+  "name": "Policlinica Veche",
+  "lon": 26.915198,
+  "lat": 46.564673,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "pompieri",
+  "name": "Pompieri",
+  "lon": 26.917,
+  "lat": 46.5525,
+  "lines": [
+   "14"
+  ]
+ },
+ {
+  "key": "popas gheraiesti",
+  "name": "Popas Gherăiești",
+  "lon": 26.90528,
+  "lat": 46.59651,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "prelungirea arcadie septilici 5",
+  "name": "Prelungirea Șeptilici nr. 5",
+  "lon": 26.883436,
+  "lat": 46.561421,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "prelungirea arcadie septilici 68",
+  "name": "Prelungirea Șeptilici nr. 68",
+  "lon": 26.874066,
+  "lat": 46.57761,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "renel",
+  "name": "Renel",
+  "lon": 26.915773,
+  "lat": 46.577467,
+  "lines": [
+   "4",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "robinete industriale",
+  "name": "Robinete Industriale",
+  "lon": 26.921252,
+  "lat": 46.527203,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "selgros",
+  "name": "Selgros",
+  "lon": 26.90668,
+  "lat": 46.58722,
+  "lines": [
+   "22S"
+  ]
+ },
+ {
+  "key": "stadionul municipal",
+  "name": "Stadionul Municipal",
+  "lon": 26.9135,
+  "lat": 46.55733,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "statiunea pomicola",
+  "name": "Stațiunea Pomicolă",
+  "lon": 26.930627,
+  "lat": 46.59767,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "subex",
+  "name": "Subex",
+  "lon": 26.922,
+  "lat": 46.546,
+  "lines": [
+   "14"
+  ]
+ },
+ {
+  "key": "scoala generala 6",
+  "name": "Școala Generală nr. 6",
+  "lon": 26.930288,
+  "lat": 46.589038,
+  "lines": [
+   "5"
+  ]
+ },
+ {
+  "key": "scoala generala 9",
+  "name": "Școala Generală nr. 9",
+  "lon": 26.909023,
+  "lat": 46.594766,
+  "lines": [
+   "4"
+  ]
+ },
+ {
+  "key": "stefan cel mare 25",
+  "name": "Ștefan cel Mare nr. 25",
+  "lon": 26.915468,
+  "lat": 46.576337,
+  "lines": [
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "tic tac",
+  "name": "Tic-Tac",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "lines": [
+   "3",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ },
+ {
+  "key": "tribunal",
+  "name": "Tribunal",
+  "lon": 26.9118,
+  "lat": 46.569,
+  "lines": [
+   "18",
+   "18B",
+   "18J"
+  ]
+ },
+ {
+  "key": "vasile parvan 18",
+  "name": "Vasile Pârvan nr. 18",
+  "lon": 26.889608,
+  "lat": 46.565713,
+  "lines": [
+   "3"
+  ]
+ },
+ {
+  "key": "wmw",
+  "name": "WMW",
+  "lon": 26.922803,
+  "lat": 46.522287,
+  "lines": [
+   "3",
+   "14",
+   "17",
+   "17B",
+   "18",
+   "18B",
+   "18J",
+   "22",
+   "22B",
+   "22J",
+   "22S"
+  ]
+ }
+]

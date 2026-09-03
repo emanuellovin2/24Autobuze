@@ -1,0 +1,1304 @@
+{
+ "FNC – Str. Republicii, nr.198": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "WMW - Str. Republicii, nr.152": {
+  "key": "wmw",
+  "lon": 26.921862,
+  "lat": 46.524632,
+  "method": "axă republicii nr.152 ≈ 1339 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Robinete Industriale - Str. Republicii, nr.122": {
+  "key": "robinete industriale",
+  "lon": 26.921151,
+  "lat": 46.527631,
+  "method": "axă republicii nr.122 ≈ 1001 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Aerostar - Str. Republicii, nr.88": {
+  "key": "aerostar",
+  "lon": 26.919922,
+  "lat": 46.531484,
+  "method": "adresă republicii 88"
+ },
+ "Chimiei - Str. Republicii, nr.21": {
+  "key": "chimiei",
+  "lon": 26.918633,
+  "lat": 46.535285,
+  "method": "adresă republicii 21"
+ },
+ "Narcisa - Str. Republicii, nr.3": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "axă republicii nr.3 ≈ 0 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Pasaj Letea – Orizont - Calea Marasesti": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Piata Sud - Calea Marasesti, nr.159": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.159 ≈ 1829 m"
+ },
+ "Stadionul Municipal - Calea Marasesti, nr.32-80": {
+  "key": "stadionul municipal",
+  "lon": 26.9135,
+  "lat": 46.55733,
+  "method": "POI fix"
+ },
+ "Policlinica Veche – Str. 9 Mai, nr.1": {
+  "key": "policlinica veche",
+  "lon": 26.913974,
+  "lat": 46.561868,
+  "method": "adresă 9 mai 1"
+ },
+ "Biserica Precista - Str. 9 Mai": {
+  "key": "biserica precista",
+  "lon": 26.9148,
+  "lat": 46.5652,
+  "method": "override"
+ },
+ "Piata Centrala - Str. 9 Mai": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Mioritei – Str. Mioritei, nr.1": {
+  "key": "mioritei",
+  "lon": 26.913909,
+  "lat": 46.573973,
+  "method": "adresă mioritei 1"
+ },
+ "Bancii - Str. Mioritei, nr.24": {
+  "key": "bancii",
+  "lon": 26.906831,
+  "lat": 46.575571,
+  "method": "axă mioritei nr.24 ≈ 695 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Petrom - Str. Mioritei, nr.17": {
+  "key": "petromv",
+  "lon": 26.908624,
+  "lat": 46.57518,
+  "method": "axă mioritei nr.17 ≈ 551 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Colegiul N.V. Karpen - Str. Mioritei, nr.78": {
+  "key": "nv karpen",
+  "lon": 26.895504,
+  "lat": 46.570549,
+  "method": "axă mioritei nr.78 ≈ 1805 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Pambac – Calea Moinesti": {
+  "key": "pambac",
+  "lon": 26.89533,
+  "lat": 46.5704,
+  "method": "override"
+ },
+ "Prelungirea Arcadie Septilici nr.5": {
+  "key": "prelungirea arcadie septilici 5",
+  "lon": 26.883436,
+  "lat": 46.561421,
+  "method": "axă arcadie septilici nr.5 ≈ 473 m (2 adrese, 45.9 m/nr.)"
+ },
+ "Str. Arcadie Septilici nr.5": {
+  "key": "arcadie septilici 5",
+  "lon": 26.883436,
+  "lat": 46.561421,
+  "method": "axă arcadie septilici nr.5 ≈ 473 m (2 adrese, 45.9 m/nr.)"
+ },
+ "Cartier CFR – Bvd. Vasile Parvan, nr.30": {
+  "key": "cartier cfr",
+  "lon": 26.887227,
+  "lat": 46.564586,
+  "method": "adresă vasile parvan 30"
+ },
+ "Fabrica de bere(1) – Calea Moinesti, nr.25": {
+  "key": "fabrica de bere",
+  "lon": 26.879876,
+  "lat": 46.57628,
+  "method": "axă moinesti nr.25 ≈ 1351 m (1 adresă (nr.34 la 1837 m))"
+ },
+ "Elbac - Calea Moinesti, nr.34": {
+  "key": "elbac",
+  "lon": 26.874259,
+  "lat": 46.578333,
+  "method": "adresă moinesti 34"
+ },
+ "Fabrica de bere(2) – Calea Moinesti": {
+  "key": "fabrica de bere",
+  "lon": 26.887,
+  "lat": 46.5745,
+  "method": "override"
+ },
+ "Prelungirea Arcadie Septilici nr.68": {
+  "key": "prelungirea arcadie septilici 68",
+  "lon": 26.874066,
+  "lat": 46.57761,
+  "method": "axă arcadie septilici nr.68 ≈ 3362 m (2 adrese, 45.9 m/nr.)"
+ },
+ "Str. Arcadie Septilici nr.28": {
+  "key": "arcadie septilici 28",
+  "lon": 26.878952,
+  "lat": 46.570307,
+  "method": "axă arcadie septilici nr.28 ≈ 1528 m (2 adrese, 45.9 m/nr.)"
+ },
+ "Str. Vasile Parvan, nr.18": {
+  "key": "vasile parvan 18",
+  "lon": 26.889608,
+  "lat": 46.565713,
+  "method": "adresă vasile parvan 18"
+ },
+ "Pambac(2)": {
+  "key": "pambac",
+  "lon": 26.89533,
+  "lat": 46.5704,
+  "method": "override"
+ },
+ "N.V. Karpen(2) – Str. Mioritei, nr.78": {
+  "key": "nv karpen",
+  "lon": 26.895504,
+  "lat": 46.570549,
+  "method": "axă mioritei nr.78 ≈ 1805 m (12 adrese, 20.6 m/nr.)"
+ },
+ "PetromV(2) - Str. Mioritei, nr.52": {
+  "key": "petromv",
+  "lon": 26.900768,
+  "lat": 46.573249,
+  "method": "axă mioritei nr.52 ≈ 1270 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Bancii(2) - Str. Mioritei, nr.16": {
+  "key": "bancii",
+  "lon": 26.908879,
+  "lat": 46.57512,
+  "method": "axă mioritei nr.16 ≈ 530 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Banca Transilvania – Str. 9 Mai, nr.33": {
+  "key": "banca transilvania",
+  "lon": 26.916784,
+  "lat": 46.566797,
+  "method": "axă 9 mai nr.33 ≈ 380 m"
+ },
+ "Piata Centrala(2) – Str. 9 Mai, nr.88": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "BCR – Str. 9 Mai, nr.11": {
+  "key": "bcr",
+  "lon": 26.915669,
+  "lat": 46.56894,
+  "method": "axă 9 mai nr.11 ≈ 127 m"
+ },
+ "Policlinica Veche(2) - Str. 9 Mai, nr.26": {
+  "key": "policlinica veche",
+  "lon": 26.916423,
+  "lat": 46.567477,
+  "method": "axă 9 mai nr.26 ≈ 299 m"
+ },
+ "Tic-Tac – Str. Marasesti, nr.80": {
+  "key": "tic tac",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.80 ≈ 920 m"
+ },
+ "Piata Sud(2) - Calea Marasesti, nr.97": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.97 ≈ 1116 m"
+ },
+ "Pasaj Letea(2) - Calea Marasesti, nr.112": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Narcisa(2) – Calea Republicii, nr.2": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "axă republicii nr.2 ≈ 0 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Chimiei - Str. Republicii, nr.76": {
+  "key": "chimiei",
+  "lon": 26.919357,
+  "lat": 46.533187,
+  "method": "adresă republicii 76"
+ },
+ "Exim-Group - Str. Republicii, nr.100": {
+  "key": "exim group",
+  "lon": 26.920489,
+  "lat": 46.529811,
+  "method": "axă republicii nr.100 ≈ 753 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Robinete Industriale - Str. Republicii, nr.107": {
+  "key": "robinete industriale",
+  "lon": 26.922262,
+  "lat": 46.522924,
+  "method": "adresă republicii 107"
+ },
+ "WMW - Str. Republicii, nr.119": {
+  "key": "wmw",
+  "lon": 26.921076,
+  "lat": 46.52793,
+  "method": "axă republicii nr.119 ≈ 967 m (39 adrese, 11.3 m/nr.)"
+ },
+ "FNC - Str. Republicii, nr.140": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "Cora – str. Alexandru cel Bun, nr. 10": {
+  "key": "cora",
+  "lon": 26.9219,
+  "lat": 46.5625,
+  "method": "POI fix"
+ },
+ "Piata Centrala – str. 9 Mai, nr. 88": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Curtea de Apel – Str. Stefan cel Mare, nr. 6-8": {
+  "key": "curtea de apel",
+  "lon": 26.91584,
+  "lat": 46.575411,
+  "method": "axă stefan cel mare nr.6 ≈ 204 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Renel - Str. Stefan cel Mare, nr.24": {
+  "key": "renel",
+  "lon": 26.91614,
+  "lat": 46.578451,
+  "method": "adresă stefan cel mare 24"
+ },
+ "Podul cu Lanturi (2) - Str. Stefan cel Mare, nr.38": {
+  "key": "podul cu lanturi",
+  "lon": 26.915196,
+  "lat": 46.576968,
+  "method": "axă stefan cel mare nr.38 ≈ 384 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Holding Agricola(1) – Calea Moldovei, nr.78": {
+  "key": "holding agricola",
+  "lon": 26.911284,
+  "lat": 46.5916,
+  "method": "axă moldovei nr.78 ≈ 819 m (3 adrese, 9.5 m/nr.)"
+ },
+ "A.R.A.(1) - Calea Moldovei, nr.110": {
+  "key": "ara",
+  "lon": 26.909542,
+  "lat": 46.594042,
+  "method": "axă moldovei nr.110 ≈ 1122 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Scoala Generala nr.9(1) - Calea Moldovei, nr.136": {
+  "key": "scoala generala 9",
+  "lon": 26.908121,
+  "lat": 46.596024,
+  "method": "axă moldovei nr.136 ≈ 1367 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Ecaterina Teodoroiu(1) - Calea Moldovei, nr.171": {
+  "key": "ecaterina teodoroiu",
+  "lon": 26.906233,
+  "lat": 46.598701,
+  "method": "axă moldovei nr.171 ≈ 1698 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Agricola(1) - Calea Moldovei, nr.201": {
+  "key": "agricola",
+  "lon": 26.904592,
+  "lat": 46.600987,
+  "method": "axă moldovei nr.201 ≈ 1982 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Popas Gheraesti – str. Lunca Bistritei": {
+  "key": "popas gheraiesti",
+  "lon": 26.90528,
+  "lat": 46.59651,
+  "method": "override"
+ },
+ "Agricola(2) - Calea Moldovei, nr.193": {
+  "key": "agricola",
+  "lon": 26.905034,
+  "lat": 46.600379,
+  "method": "axă moldovei nr.193 ≈ 1906 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Ecaterina Teodoroiu(2) - Calea Moldovei, nr.167": {
+  "key": "ecaterina teodoroiu",
+  "lon": 26.906446,
+  "lat": 46.598394,
+  "method": "axă moldovei nr.167 ≈ 1660 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Scoala Generala nr.9(2) - Calea Moldovei, nr.103": {
+  "key": "scoala generala 9",
+  "lon": 26.909925,
+  "lat": 46.593508,
+  "method": "axă moldovei nr.103 ≈ 1056 m (3 adrese, 9.5 m/nr.)"
+ },
+ "A.R.A.(2) - Calea Moldovei, nr.57": {
+  "key": "ara",
+  "lon": 26.912277,
+  "lat": 46.589955,
+  "method": "axă moldovei nr.57 ≈ 621 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Holding Agricola(2) – Calea Moldovei, nr.78": {
+  "key": "holding agricola",
+  "lon": 26.911284,
+  "lat": 46.5916,
+  "method": "axă moldovei nr.78 ≈ 819 m (3 adrese, 9.5 m/nr.)"
+ },
+ "Podul cu Lanturi(3) - Str. Stefan cel Mare, nr.75": {
+  "key": "podul cu lanturi",
+  "lon": 26.915152,
+  "lat": 46.578488,
+  "method": "axă stefan cel mare nr.75 ≈ 592 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Renel(2) - Str. Stefan cel Mare, nr.28": {
+  "key": "renel",
+  "lon": 26.915405,
+  "lat": 46.576482,
+  "method": "axă stefan cel mare nr.28 ≈ 328 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Banca Transilvania – str. 9 Mai, nr.33": {
+  "key": "banca transilvania",
+  "lon": 26.916784,
+  "lat": 46.566797,
+  "method": "axă 9 mai nr.33 ≈ 380 m"
+ },
+ "Piata Centrala(2) – str. 9 Mai, nr.94": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Cora – str. Alexandru cel Bun, nr.10": {
+  "key": "cora",
+  "lon": 26.9219,
+  "lat": 46.5625,
+  "method": "POI fix"
+ },
+ "Piața Centrală – str. 9 Mai, nr. 88": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Baia Publică – Blv. Unirii, nr.13": {
+  "key": "baia publica",
+  "lon": 26.923194,
+  "lat": 46.572118,
+  "method": "axă unirii nr.13 ≈ 125 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Complex Șerbănești - Blv. Unirii, nr.96": {
+  "key": "complex serbanesti",
+  "lon": 26.92994,
+  "lat": 46.57395,
+  "method": "axă unirii nr.96 ≈ 923 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Calea Romanului nr. 62": {
+  "key": "calea romanului 62",
+  "lon": 26.930006,
+  "lat": 46.58175,
+  "method": "axă romanului nr.62 ≈ 713 m"
+ },
+ "Școala Generală 6(1) - Calea Romanului nr. 144": {
+  "key": "scoala generala 6",
+  "lon": 26.930337,
+  "lat": 46.590227,
+  "method": "axă romanului nr.144 ≈ 1656 m"
+ },
+ "Calea Romanului nr. 166": {
+  "key": "calea romanului 166",
+  "lon": 26.930409,
+  "lat": 46.592502,
+  "method": "axă romanului nr.166 ≈ 1909 m"
+ },
+ "Calea Romanului nr. 192": {
+  "key": "calea romanului 192",
+  "lon": 26.930516,
+  "lat": 46.595189,
+  "method": "axă romanului nr.192 ≈ 2208 m"
+ },
+ "Calea Romanului nr. 216": {
+  "key": "calea romanului 216",
+  "lon": 26.930627,
+  "lat": 46.59767,
+  "method": "axă romanului nr.216 ≈ 2484 m"
+ },
+ "Stațiunea Pomicolă - Calea Romanului nr. 216": {
+  "key": "statiunea pomicola",
+  "lon": 26.930627,
+  "lat": 46.59767,
+  "method": "axă romanului nr.216 ≈ 2484 m"
+ },
+ "Calea Romanului nr. 235": {
+  "key": "calea romanului 235",
+  "lon": 26.930685,
+  "lat": 46.599635,
+  "method": "axă romanului nr.235 ≈ 2703 m"
+ },
+ "Calea Romanului nr. 215": {
+  "key": "calea romanului 215",
+  "lon": 26.930622,
+  "lat": 46.597567,
+  "method": "axă romanului nr.215 ≈ 2473 m"
+ },
+ "Calea Romanului nr. 185": {
+  "key": "calea romanului 185",
+  "lon": 26.930479,
+  "lat": 46.594466,
+  "method": "axă romanului nr.185 ≈ 2128 m"
+ },
+ "Școala Generală 6(2) - Calea Romanului nr. 121": {
+  "key": "scoala generala 6",
+  "lon": 26.93024,
+  "lat": 46.587849,
+  "method": "axă romanului nr.121 ≈ 1392 m"
+ },
+ "Calea Romanului nr. 49": {
+  "key": "calea romanului 49",
+  "lon": 26.930005,
+  "lat": 46.580405,
+  "method": "axă romanului nr.49 ≈ 564 m"
+ },
+ "Pod Bistrița - Blv. Unirii, nr. 41": {
+  "key": "pod bistrita",
+  "lon": 26.92649,
+  "lat": 46.572973,
+  "method": "axă unirii nr.41 ≈ 394 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Autogara - Blv. Unirii, nr. 44": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "Piața Centrală (2) – str. 9 Mai, nr. 94": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Baia Publica – Blv. Unirii, nr.13": {
+  "key": "baia publica",
+  "lon": 26.923194,
+  "lat": 46.572118,
+  "method": "axă unirii nr.13 ≈ 125 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Complex Serbanesti - Blv. Unirii, nr.96": {
+  "key": "complex serbanesti",
+  "lon": 26.92994,
+  "lat": 46.57395,
+  "method": "axă unirii nr.96 ≈ 923 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Calea Romanului nr.62": {
+  "key": "calea romanului 62",
+  "lon": 26.930006,
+  "lat": 46.58175,
+  "method": "axă romanului nr.62 ≈ 713 m"
+ },
+ "Calea Barladului nr.78": {
+  "key": "calea barladului 78",
+  "lon": 26.938936,
+  "lat": 46.581359,
+  "method": "axă barladului nr.78 ≈ 897 m"
+ },
+ "Calea Barladului nr.164": {
+  "key": "calea barladului 164",
+  "lon": 26.95092,
+  "lat": 46.584716,
+  "method": "axă barladului nr.164 ≈ 1886 m"
+ },
+ "Calea Barladului nr.206": {
+  "key": "calea barladului 206",
+  "lon": 26.955185,
+  "lat": 46.585909,
+  "method": "axă barladului nr.206 ≈ 2369 m"
+ },
+ "Capu Dealului – Calea Barladului nr.246": {
+  "key": "capu dealului",
+  "lon": 26.95519,
+  "lat": 46.58591,
+  "method": "POI fix"
+ },
+ "Calea Barladului nr.151": {
+  "key": "calea barladului 151",
+  "lon": 26.949109,
+  "lat": 46.584208,
+  "method": "axă barladului nr.151 ≈ 1737 m"
+ },
+ "Calea Barladului nr.83": {
+  "key": "calea barladului 83",
+  "lon": 26.939633,
+  "lat": 46.581554,
+  "method": "axă barladului nr.83 ≈ 955 m"
+ },
+ "Calea Barladului nr.23": {
+  "key": "calea barladului 23",
+  "lon": 26.931281,
+  "lat": 46.579198,
+  "method": "axă barladului nr.23 ≈ 265 m"
+ },
+ "Calea Romanului nr.49": {
+  "key": "calea romanului 49",
+  "lon": 26.930005,
+  "lat": 46.580405,
+  "method": "axă romanului nr.49 ≈ 564 m"
+ },
+ "Pod Bistrita – Blv. Unirii, nr.41": {
+  "key": "pod bistrita",
+  "lon": 26.92649,
+  "lat": 46.572973,
+  "method": "axă unirii nr.41 ≈ 394 m (1 adresă (nr.43 la 413 m))"
+ },
+ "Autogara – Blv. Unirii, nr.44": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "F.N.C.": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "WMW": {
+  "key": "wmw",
+  "lon": 26.9231,
+  "lat": 46.5214,
+  "method": "override"
+ },
+ "Robinete Industriale": {
+  "key": "robinete industriale",
+  "lon": 26.921151,
+  "lat": 46.527631,
+  "method": "preluat de la „Robinete Industriale - Str. Republicii, nr.122”"
+ },
+ "Aerostar": {
+  "key": "aerostar",
+  "lon": 26.919922,
+  "lat": 46.531484,
+  "method": "preluat de la „Aerostar - Str. Republicii, nr.88”"
+ },
+ "Chimiei": {
+  "key": "chimiei",
+  "lon": 26.918633,
+  "lat": 46.535285,
+  "method": "preluat de la „Chimiei - Str. Republicii, nr.21”"
+ },
+ "Narcisa": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "preluat de la „Narcisa - Str. Republicii, nr.3”"
+ },
+ "Bazar Letea (1)": {
+  "key": "bazar letea",
+  "lon": 26.92063,
+  "lat": 46.54172,
+  "method": "override"
+ },
+ "Pompieri (1)": {
+  "key": "pompieri",
+  "lon": 26.917,
+  "lat": 46.5525,
+  "method": "override"
+ },
+ "Intersecția Izvoare (1)": {
+  "key": "intersectia izvoare",
+  "lon": 26.92412,
+  "lat": 46.55533,
+  "method": "override"
+ },
+ "Subex (1)": {
+  "key": "subex",
+  "lon": 26.922,
+  "lat": 46.546,
+  "method": "override"
+ },
+ "Cora (1)": {
+  "key": "cora",
+  "lon": 26.9219,
+  "lat": 46.5625,
+  "method": "POI fix"
+ },
+ "I.L. Caragiale": {
+  "key": "il caragiale",
+  "lon": 26.9223,
+  "lat": 46.568,
+  "method": "override"
+ },
+ "Autogara": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "Mioriței": {
+  "key": "mioritei",
+  "lon": 26.913909,
+  "lat": 46.573973,
+  "method": "preluat de la „Mioritei – Str. Mioritei, nr.1”"
+ },
+ "Băncii (1)": {
+  "key": "bancii",
+  "lon": 26.906831,
+  "lat": 46.575571,
+  "method": "preluat de la „Bancii - Str. Mioritei, nr.24”"
+ },
+ "PetromV (1)": {
+  "key": "petromv",
+  "lon": 26.908624,
+  "lat": 46.57518,
+  "method": "preluat de la „Petrom - Str. Mioritei, nr.17”"
+ },
+ "N. V. Karpen (1)": {
+  "key": "nv karpen",
+  "lon": 26.8989,
+  "lat": 46.5707,
+  "method": "override"
+ },
+ "Gara": {
+  "key": "gara",
+  "lon": 26.8951,
+  "lat": 46.56589,
+  "method": "POI fix"
+ },
+ "Bus Selena": {
+  "key": "bus selena",
+  "lon": 26.897,
+  "lat": 46.5708,
+  "method": "override"
+ },
+ "PetromV (2)": {
+  "key": "petromv",
+  "lon": 26.900768,
+  "lat": 46.573249,
+  "method": "preluat de la „PetromV(2) - Str. Mioritei, nr.52”"
+ },
+ "Băncii (2)": {
+  "key": "bancii",
+  "lon": 26.908879,
+  "lat": 46.57512,
+  "method": "preluat de la „Bancii(2) - Str. Mioritei, nr.16”"
+ },
+ "Nicu Enea": {
+  "key": "nicu enea",
+  "lon": 26.9187,
+  "lat": 46.5743,
+  "method": "override"
+ },
+ "Autogara (2)": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "Cora (2)": {
+  "key": "cora",
+  "lon": 26.9219,
+  "lat": 46.5625,
+  "method": "POI fix"
+ },
+ "Subex (2)": {
+  "key": "subex",
+  "lon": 26.922,
+  "lat": 46.546,
+  "method": "override"
+ },
+ "Intersecția Izvoare (2)": {
+  "key": "intersectia izvoare",
+  "lon": 26.92412,
+  "lat": 46.55533,
+  "method": "override"
+ },
+ "Pompieri (2)": {
+  "key": "pompieri",
+  "lon": 26.917,
+  "lat": 46.5525,
+  "method": "override"
+ },
+ "Bazar Letea (2)": {
+  "key": "bazar letea",
+  "lon": 26.92063,
+  "lat": 46.54172,
+  "method": "override"
+ },
+ "Narcisa (2)": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "preluat de la „Narcisa(2) – Calea Republicii, nr.2”"
+ },
+ "Exim Group": {
+  "key": "exim group",
+  "lon": 26.920489,
+  "lat": 46.529811,
+  "method": "preluat de la „Exim-Group - Str. Republicii, nr.100”"
+ },
+ "Pasaj Letea": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Piata Sud": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud - Calea Marasesti, nr.159”"
+ },
+ "Stadionul Municipal": {
+  "key": "stadionul municipal",
+  "lon": 26.9135,
+  "lat": 46.55733,
+  "method": "POI fix"
+ },
+ "Policlinica Veche": {
+  "key": "policlinica veche",
+  "lon": 26.913974,
+  "lat": 46.561868,
+  "method": "preluat de la „Policlinica Veche – Str. 9 Mai, nr.1”"
+ },
+ "Biserica Precista": {
+  "key": "biserica precista",
+  "lon": 26.9148,
+  "lat": 46.5652,
+  "method": "override"
+ },
+ "Piata Centrala": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Mioritei": {
+  "key": "mioritei",
+  "lon": 26.913909,
+  "lat": 46.573973,
+  "method": "preluat de la „Mioritei – Str. Mioritei, nr.1”"
+ },
+ "Bancii (1)": {
+  "key": "bancii",
+  "lon": 26.906831,
+  "lat": 46.575571,
+  "method": "preluat de la „Bancii - Str. Mioritei, nr.24”"
+ },
+ "N.V. Karpen (1)": {
+  "key": "nv karpen",
+  "lon": 26.8989,
+  "lat": 46.5707,
+  "method": "override"
+ },
+ "Bancii (2)": {
+  "key": "bancii",
+  "lon": 26.908879,
+  "lat": 46.57512,
+  "method": "preluat de la „Bancii(2) - Str. Mioritei, nr.16”"
+ },
+ "Autogara (3)": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "Piata Centrala (2)": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "B.C.R.": {
+  "key": "bcr",
+  "lon": 26.915669,
+  "lat": 46.56894,
+  "method": "preluat de la „BCR – Str. 9 Mai, nr.11”"
+ },
+ "Policlinica Veche (2)": {
+  "key": "policlinica veche",
+  "lon": 26.916423,
+  "lat": 46.567477,
+  "method": "preluat de la „Policlinica Veche(2) - Str. 9 Mai, nr.26”"
+ },
+ "Tic-Tac": {
+  "key": "tic tac",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Tic-Tac – Str. Marasesti, nr.80”"
+ },
+ "Piata Sud (2)": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud(2) - Calea Marasesti, nr.97”"
+ },
+ "Pasaj Letea (2)": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Auchan": {
+  "key": "auchan",
+  "lon": 26.9292,
+  "lat": 46.51059,
+  "method": "POI fix"
+ },
+ "F.N.C. – Str. Republicii, nr.198": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "WMW – Str. Republicii, nr.152": {
+  "key": "wmw",
+  "lon": 26.921862,
+  "lat": 46.524632,
+  "method": "axă republicii nr.152 ≈ 1339 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Robinete Industriale – Str. Republicii, nr.122": {
+  "key": "robinete industriale",
+  "lon": 26.921151,
+  "lat": 46.527631,
+  "method": "axă republicii nr.122 ≈ 1001 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Aerostar – Str. Republicii, nr.88": {
+  "key": "aerostar",
+  "lon": 26.919922,
+  "lat": 46.531484,
+  "method": "adresă republicii 88"
+ },
+ "Chimiei – Str. Republicii, nr.21": {
+  "key": "chimiei",
+  "lon": 26.918633,
+  "lat": 46.535285,
+  "method": "adresă republicii 21"
+ },
+ "Narcisa – Str. Republicii, nr.3": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "axă republicii nr.3 ≈ 0 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Pasaj Letea – Orizont – Calea Mărășești": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Piața Sud – Calea Mărășești, nr.159": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.159 ≈ 1829 m"
+ },
+ "Stadionul Municipal – Calea Mărășești, nr.32–80": {
+  "key": "stadionul municipal",
+  "lon": 26.9135,
+  "lat": 46.55733,
+  "method": "POI fix"
+ },
+ "Biserica Precista – Str. 9 Mai": {
+  "key": "biserica precista",
+  "lon": 26.9148,
+  "lat": 46.5652,
+  "method": "override"
+ },
+ "Piața Centrală – Str. 9 Mai": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Mioriței – Str. Mioriței, nr.1": {
+  "key": "mioritei",
+  "lon": 26.913909,
+  "lat": 46.573973,
+  "method": "adresă mioritei 1"
+ },
+ "Bancii(1) – Str. Mioriței, nr.24": {
+  "key": "bancii",
+  "lon": 26.906831,
+  "lat": 46.575571,
+  "method": "axă mioritei nr.24 ≈ 695 m (12 adrese, 20.6 m/nr.)"
+ },
+ "PetromV(1) – Str. Mioriței, nr.17": {
+  "key": "petromv",
+  "lon": 26.908624,
+  "lat": 46.57518,
+  "method": "axă mioritei nr.17 ≈ 551 m (12 adrese, 20.6 m/nr.)"
+ },
+ "N. V. Karpen(1) – Str. Mioriței, nr.78": {
+  "key": "nv karpen",
+  "lon": 26.895504,
+  "lat": 46.570549,
+  "method": "axă mioritei nr.78 ≈ 1805 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Gară – Str. Gării, nr.15": {
+  "key": "gara",
+  "lon": 26.8951,
+  "lat": 46.56589,
+  "method": "POI fix"
+ },
+ "Bus Selena – Str. Mioriței, nr.78": {
+  "key": "bus selena",
+  "lon": 26.895504,
+  "lat": 46.570549,
+  "method": "axă mioritei nr.78 ≈ 1805 m (12 adrese, 20.6 m/nr.)"
+ },
+ "PetromV(2) – Str. Mioriței, nr.52": {
+  "key": "petromv",
+  "lon": 26.900768,
+  "lat": 46.573249,
+  "method": "axă mioritei nr.52 ≈ 1270 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Bancii(2) – Str. Mioriței, nr.16": {
+  "key": "bancii",
+  "lon": 26.908879,
+  "lat": 46.57512,
+  "method": "axă mioritei nr.16 ≈ 530 m (12 adrese, 20.6 m/nr.)"
+ },
+ "Nicu Enea – Str. Vadu Bistriței, nr.29": {
+  "key": "nicu enea",
+  "lon": 26.9187,
+  "lat": 46.5743,
+  "method": "override"
+ },
+ "Autogara(3) – B-dul Unirii, nr.44": {
+  "key": "autogara",
+  "lon": 26.92056,
+  "lat": 46.57191,
+  "method": "POI fix"
+ },
+ "Piața Centrală(2) – Str. 9 Mai, nr.88": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "B.C.R – Str. 9 Mai, nr.11": {
+  "key": "bcr",
+  "lon": 26.915669,
+  "lat": 46.56894,
+  "method": "axă 9 mai nr.11 ≈ 127 m"
+ },
+ "Policlinica Veche(2) – Str. 9 Mai, nr.26": {
+  "key": "policlinica veche",
+  "lon": 26.916423,
+  "lat": 46.567477,
+  "method": "axă 9 mai nr.26 ≈ 299 m"
+ },
+ "Tic-Tac – Str. Mărășești, nr.80": {
+  "key": "tic tac",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.80 ≈ 920 m"
+ },
+ "Piața Sud(2) – Calea Mărășești, nr.97": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "axă marasesti nr.97 ≈ 1116 m"
+ },
+ "Pasaj Letea(2) – Calea Mărășești, nr.112": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Chimiei – Str. Republicii, nr.76": {
+  "key": "chimiei",
+  "lon": 26.919357,
+  "lat": 46.533187,
+  "method": "adresă republicii 76"
+ },
+ "Exim Group – Str. Republicii, nr.100": {
+  "key": "exim group",
+  "lon": 26.920489,
+  "lat": 46.529811,
+  "method": "axă republicii nr.100 ≈ 753 m (39 adrese, 11.3 m/nr.)"
+ },
+ "Robinete Industriale – Str. Republicii, nr.107": {
+  "key": "robinete industriale",
+  "lon": 26.922262,
+  "lat": 46.522924,
+  "method": "adresă republicii 107"
+ },
+ "WMW – Str. Republicii, nr.119": {
+  "key": "wmw",
+  "lon": 26.921076,
+  "lat": 46.52793,
+  "method": "axă republicii nr.119 ≈ 967 m (39 adrese, 11.3 m/nr.)"
+ },
+ "F.N.C. – Str. Republicii, nr.140": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "Piața Sud": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud - Calea Marasesti, nr.159”"
+ },
+ "Piața Centrală": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Catedrala Ortodoxă": {
+  "key": "catedrala ortodoxa",
+  "lon": 26.91072,
+  "lat": 46.57012,
+  "method": "override"
+ },
+ "Centrul Militar": {
+  "key": "centrul militar",
+  "lon": 26.904,
+  "lat": 46.565,
+  "method": "override"
+ },
+ "Energiei (nr. 2)": {
+  "key": "energiei 2",
+  "lon": 26.903643,
+  "lat": 46.567418,
+  "method": "axă energiei nr.2 ≈ 0 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei (nr. 36)": {
+  "key": "energiei 36",
+  "lon": 26.897928,
+  "lat": 46.569604,
+  "method": "axă energiei nr.36 ≈ 508 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei (nr. 39)": {
+  "key": "energiei 39",
+  "lon": 26.897024,
+  "lat": 46.569917,
+  "method": "axă energiei nr.39 ≈ 585 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei (nr. 25)": {
+  "key": "energiei 25",
+  "lon": 26.901112,
+  "lat": 46.568501,
+  "method": "adresă energiei 25"
+ },
+ "Tribunal": {
+  "key": "tribunal",
+  "lon": 26.9118,
+  "lat": 46.569,
+  "method": "override"
+ },
+ "Parcul Trandafirilor": {
+  "key": "parcul trandafirilor",
+  "lon": 26.908,
+  "lat": 46.566,
+  "method": "override"
+ },
+ "Piața Centrală (2)": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Piața Sud (2)": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud(2) - Calea Marasesti, nr.97”"
+ },
+ "FNC": {
+  "key": "fnc",
+  "lon": 26.92439,
+  "lat": 46.516,
+  "method": "POI fix"
+ },
+ "Energiei 2": {
+  "key": "energiei 2",
+  "lon": 26.903643,
+  "lat": 46.567418,
+  "method": "axă energiei nr.2 ≈ 0 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei 36": {
+  "key": "energiei 36",
+  "lon": 26.897928,
+  "lat": 46.569604,
+  "method": "axă energiei nr.36 ≈ 508 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Gară": {
+  "key": "gara",
+  "lon": 26.8951,
+  "lat": 46.56589,
+  "method": "POI fix"
+ },
+ "Energiei 39": {
+  "key": "energiei 39",
+  "lon": 26.897024,
+  "lat": 46.569917,
+  "method": "axă energiei nr.39 ≈ 585 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei 25": {
+  "key": "energiei 25",
+  "lon": 26.901112,
+  "lat": 46.568501,
+  "method": "adresă energiei 25"
+ },
+ "Piața Centrală(2)": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "BCR": {
+  "key": "bcr",
+  "lon": 26.915669,
+  "lat": 46.56894,
+  "method": "preluat de la „BCR – Str. 9 Mai, nr.11”"
+ },
+ "Policlinica Veche(2)": {
+  "key": "policlinica veche",
+  "lon": 26.916423,
+  "lat": 46.567477,
+  "method": "preluat de la „Policlinica Veche(2) - Str. 9 Mai, nr.26”"
+ },
+ "Piața Sud(2)": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud(2) - Calea Marasesti, nr.97”"
+ },
+ "Pasaj Letea(2)": {
+  "key": "pasaj letea",
+  "lon": 26.9152,
+  "lat": 46.5468,
+  "method": "POI fix"
+ },
+ "Narcisa(2)": {
+  "key": "narcisa",
+  "lon": 26.917365,
+  "lat": 46.53509,
+  "method": "preluat de la „Narcisa(2) – Calea Republicii, nr.2”"
+ },
+ "JUMBO": {
+  "key": "jumbo",
+  "lon": 26.92692,
+  "lat": 46.50368,
+  "method": "POI fix"
+ },
+ "Energiei nr. 2": {
+  "key": "energiei 2",
+  "lon": 26.903643,
+  "lat": 46.567418,
+  "method": "axă energiei nr.2 ≈ 0 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei nr. 36": {
+  "key": "energiei 36",
+  "lon": 26.897928,
+  "lat": 46.569604,
+  "method": "axă energiei nr.36 ≈ 508 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei nr. 39": {
+  "key": "energiei 39",
+  "lon": 26.897024,
+  "lat": 46.569917,
+  "method": "axă energiei nr.39 ≈ 585 m (5 adrese, 25.8 m/nr.)"
+ },
+ "Energiei nr. 25": {
+  "key": "energiei 25",
+  "lon": 26.901112,
+  "lat": 46.568501,
+  "method": "adresă energiei 25"
+ },
+ "Curtea de Apel": {
+  "key": "curtea de apel",
+  "lon": 26.91584,
+  "lat": 46.575411,
+  "method": "preluat de la „Curtea de Apel – Str. Stefan cel Mare, nr. 6-8”"
+ },
+ "Renel(1)": {
+  "key": "renel",
+  "lon": 26.91614,
+  "lat": 46.578451,
+  "method": "preluat de la „Renel - Str. Stefan cel Mare, nr.24”"
+ },
+ "Str. Stefan cel Mare, 25": {
+  "key": "stefan cel mare 25",
+  "lon": 26.915468,
+  "lat": 46.576337,
+  "method": "axă stefan cel mare nr.25 ≈ 311 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Aprod Purice": {
+  "key": "aprod purice",
+  "lon": 26.9093,
+  "lat": 46.5812,
+  "method": "override"
+ },
+ "Cartier FIALD": {
+  "key": "cartier fiald",
+  "lon": 26.90332,
+  "lat": 46.58251,
+  "method": "POI fix"
+ },
+ "Podul cu lanturi": {
+  "key": "podul cu lanturi",
+  "lon": 26.917,
+  "lat": 46.5762,
+  "method": "override"
+ },
+ "Renel(2)": {
+  "key": "renel",
+  "lon": 26.915405,
+  "lat": 46.576482,
+  "method": "preluat de la „Renel(2) - Str. Stefan cel Mare, nr.28”"
+ },
+ "Banca Transilvania": {
+  "key": "banca transilvania",
+  "lon": 26.916784,
+  "lat": 46.566797,
+  "method": "preluat de la „Banca Transilvania – Str. 9 Mai, nr.33”"
+ },
+ "Piata Centrala(2)": {
+  "key": "piata centrala",
+  "lon": 26.91451,
+  "lat": 46.56813,
+  "method": "POI fix"
+ },
+ "Piata Sud(2)": {
+  "key": "piata sud",
+  "lon": 26.913178,
+  "lat": 46.546923,
+  "method": "preluat de la „Piata Sud(2) - Calea Marasesti, nr.97”"
+ },
+ "Str. Ștefan cel Mare, 25": {
+  "key": "stefan cel mare 25",
+  "lon": 26.915468,
+  "lat": 46.576337,
+  "method": "axă stefan cel mare nr.25 ≈ 311 m (4 adrese, 5.6 m/nr.)"
+ },
+ "Podul cu lanțuri": {
+  "key": "podul cu lanturi",
+  "lon": 26.917,
+  "lat": 46.5762,
+  "method": "override"
+ },
+ "Podul cu Lanțuri": {
+  "key": "podul cu lanturi",
+  "lon": 26.917,
+  "lat": 46.5762,
+  "method": "override"
+ },
+ "Selgros": {
+  "key": "selgros",
+  "lon": 26.90668,
+  "lat": 46.58722,
+  "method": "POI fix"
+ }
+}
