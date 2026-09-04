@@ -52,7 +52,7 @@ export default function Shell() {
   ) : explore ? (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-2">
-        <button onClick={() => setExplore(null)} className="panel grid size-8 shrink-0 place-items-center rounded-lg border text-sm">
+        <button onClick={() => setExplore(null)} className="btn btn-ghost btn-icon-sm shrink-0" title="Înapoi">
           ←
         </button>
         <h2 className="text-[17px] font-bold">{explore === 'statia' ? 'Stația mea' : 'Toate liniile'}</h2>
@@ -94,9 +94,11 @@ export default function Shell() {
       {/* ---------- indicator „alege pe hartă” ---------- */}
       {pickMode !== 'none' && (
         <div className="pointer-events-none absolute inset-x-0 top-32 z-30 flex justify-center px-4 md:left-[404px] md:top-24">
-          <div className="pointer-events-auto flex items-center gap-3 rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-white shadow-lg">
+          <div className="pointer-events-auto flex items-center gap-3 rounded-full px-4 py-2 text-sm font-semibold text-white shadow-lg"
+            style={{ background: 'linear-gradient(180deg, #fbbf24, #f59e0b)' }}
+          >
             Atinge harta unde {pickMode === 'dest' ? 'vrei să ajungi' : 'te afli'}
-            <button onClick={() => setPickMode('none')} className="rounded-full bg-white/25 px-2 py-0.5 text-xs">
+            <button onClick={() => setPickMode('none')} className="btn btn-sm rounded-full bg-white/25 text-white hover:bg-white/35">
               renunț
             </button>
           </div>
@@ -123,10 +125,10 @@ export default function Shell() {
 
       {/* ---------- butoane mici pe telefon ---------- */}
       <div className="absolute right-3 top-28 z-20 flex flex-col gap-2 md:hidden">
-        <button onClick={toggleTheme} className="panel raise grid size-9 place-items-center rounded-xl border text-sm" title="Temă">
+        <button onClick={toggleTheme} className="btn btn-ghost btn-icon raise" title="Schimbă tema">
           {theme === 'light' ? '🌙' : '☀️'}
         </button>
-        <button onClick={() => setAbout(true)} className="panel raise grid size-9 place-items-center rounded-xl border text-sm" title="Despre">
+        <button onClick={() => setAbout(true)} className="btn btn-ghost btn-icon raise" title="Despre proiect">
           ?
         </button>
       </div>
@@ -141,17 +143,22 @@ function Header({ onAbout, onTheme, theme }: { onAbout: () => void; onTheme: () 
   const net = useStore((s) => s.net);
   return (
     <div className="flex items-start gap-3 border-b p-4" style={{ borderColor: 'var(--line)' }}>
-      <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[var(--color-brand)] text-lg">🚌</span>
+      <span
+        className="grid size-10 shrink-0 place-items-center rounded-xl text-lg"
+        style={{ background: 'linear-gradient(180deg, #22c55e, var(--color-brand-dark))', boxShadow: '0 6px 14px -8px rgb(22 163 74 / .9)' }}
+      >
+        🚌
+      </span>
       <div className="min-w-0 flex-1">
         <h1 className="text-base font-bold leading-tight">Autobuze Bacău</h1>
         <p className="truncate text-xs muted">
           {net ? `${net.lines.length} linii · ${net.stops.length} stații · simulare live` : 'se încarcă rețeaua…'}
         </p>
       </div>
-      <button onClick={onTheme} className="panel grid size-8 place-items-center rounded-lg border text-sm" title="Schimbă tema">
+      <button onClick={onTheme} className="btn btn-ghost btn-icon-sm" title="Schimbă tema">
         {theme === 'light' ? '🌙' : '☀️'}
       </button>
-      <button onClick={onAbout} className="panel grid size-8 place-items-center rounded-lg border text-sm" title="Despre proiect">
+      <button onClick={onAbout} className="btn btn-ghost btn-icon-sm" title="Despre proiect">
         ?
       </button>
     </div>

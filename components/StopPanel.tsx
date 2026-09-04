@@ -32,12 +32,8 @@ export default function StopPanel() {
               const s = net?.stops.find((x) => x.key === k);
               if (!s) return null;
               return (
-                <button
-                  key={k}
-                  onClick={() => setMyStop(k)}
-                  className="panel rounded-full border px-3 py-1.5 text-xs font-medium transition hover:border-[color:var(--color-brand)]"
-                >
-                  {s.name}
+                <button key={k} onClick={() => setMyStop(k)} className="chip">
+                  🚏 {s.name}
                 </button>
               );
             })}
@@ -67,14 +63,10 @@ export default function StopPanel() {
                 <li key={a.vehicleId}>
                   <button
                     onClick={() => selectVehicle(on ? null : a.vehicleId)}
-                    className={`panel flex w-full items-center gap-3 rounded-xl border p-2.5 text-left transition ${
-                      on ? 'border-amber-500 ring-2 ring-amber-500/25' : 'hover:border-[color:var(--muted)]'
-                    }`}
+                    className="card-button flex items-center gap-3 p-2.5"
+                    data-active={on}
                   >
-                    <span
-                      className="grid size-11 shrink-0 place-items-center rounded-xl text-[15px] font-bold text-white"
-                      style={{ background: a.color }}
-                    >
+                    <span className="line-badge size-11 text-[15px]" style={{ background: a.color }}>
                       {a.line}
                     </span>
                     <span className="min-w-0 flex-1">
@@ -102,7 +94,8 @@ export default function StopPanel() {
 
           {selectedVehicle && (
             <p className="text-xs muted">
-              Traseul rămas până la tine e desenat cu portocaliu pe hartă. Atinge din nou cursa ca să îl ascunzi.
+              Traseul întreg al cursei alese e desenat pe hartă, iar cartonașul ei arată toate stațiile până la capăt.
+              Atinge din nou cursa ca să o deselectezi.
             </p>
           )}
         </div>

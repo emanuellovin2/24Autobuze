@@ -1,9 +1,10 @@
 import type { Landmark, Network, Stop } from './types';
 import type { Target } from './sim/planner';
 import { fold } from './format';
+import { linesNear, nearestStops, shortName, streetAt, streetSubtitle, type Places, type Street } from './places';
 
 export interface SearchHit {
-  kind: 'stop' | 'landmark';
+  kind: 'stop' | 'landmark' | 'street' | 'point';
   /** stația de urcat/coborât */
   stopKey: string;
   title: string;
@@ -13,6 +14,8 @@ export interface SearchHit {
   walk?: number;
   /** toate stațiile din care se poate ajunge pe jos aici — planificatorul o alege pe cea mai bună */
   targets: Target[];
+  /** geometria străzii, când rezultatul e o stradă — se desenează pe hartă */
+  parts?: [number, number][][];
   score: number;
 }
 
@@ -28,6 +31,23 @@ export function landmarkHit(l: Landmark, net: Network): SearchHit {
     lat: l.lat,
     walk: near.walk,
     targets: l.stops.slice(0, 3).map((s) => ({ key: s.key, walk: s.walk })),
+    score: 0,
+  };
+}
+
+/** o stradă, ca destinație: cobori la stația cea mai apropiată de ea */
+export function streetHit(street: Street, net: Network): SearchHit {
+  const lines = linesNear(street, net);
+  return {
+    kind: 'street',
+    stopKey: street.stops[0]?.key ?? '',
+    title: street.name,
+    subtitle: streetSubtitle(street, net) + (lines.length ? ` · liniile ${lines.join(', ')}` : ''),
+    lon: street.lon,
+    lat: street.lat,
+    walk: street.stops[0]?.walk,
+    targets: street.stops.slice(0, 4),
+    parts: street.parts,
     score: 0,
   };
 }
@@ -81,11 +101,16 @@ export function popularDestinations(net: Network, limit = 12): SearchHit[] {
  * Căutare pe nume de stații ȘI pe repere cunoscute din oraș.
  * Cetățeanul scrie „mall”, „gara”, „luceafarul” — nu numele oficial al stației.
  */
-export function buildSearchIndex(net: Network) {
+export function buildSearchIndex(net: Network, places: Places | null = null) {
   const stops = net.stops.map((s: Stop) => ({ s, hay: fold(s.name) }));
   const marks = net.landmarks.map((l: Landmark) => ({
     l,
     hay: [fold(l.name), ...l.alias.map(fold)].join(' | '),
+  }));
+  // strada se caută și cu, și fără cuvântul din față: „mioritei” găsește „Strada Mioriței”
+  const streets = (places?.streets ?? []).map((st) => ({
+    st,
+    hay: [fold(st.name), shortName(st.name)].join(' | '),
   }));
 
   return function search(query: string, limit = 8): SearchHit[] {
@@ -102,14 +127,22 @@ export function buildSearchIndex(net: Network) {
     for (const { s, hay } of stops) {
       const score = match(hay, q);
       if (score <= 0) continue;
-      hits.push({ ...stopHit(s), score });
+      hits.push({ ...stopHit(s), score: score + 0.15 });
+    }
+
+    for (const { st, hay } of streets) {
+      const score = match(hay, q);
+      if (score <= 0 || !st.stops.length) continue;
+      // străzile sunt multe: apar după repere și stații cu același scor, dar
+      // o potrivire exactă de nume de stradă rămâne în capul listei
+      hits.push({ ...streetHit(st, net), score });
     }
 
     const seen = new Set<string>();
     return hits
       .sort((a, b) => b.score - a.score)
       .filter((h) => {
-        const k = h.kind + h.title;
+        const k = h.kind + h.title + (h.kind === 'street' ? h.subtitle : '');
         if (seen.has(k)) return false;
         seen.add(k);
         return true;
@@ -165,4 +198,30 @@ export function nearestStop(net: Network, lon: number, lat: number): { stop: Sto
     if (!best || d < best.distance) best = { stop: s, distance: d };
   }
   return best!;
+}
+
+/**
+ * Un punct oarecare atins pe hartă, ca destinație sau ca punct de plecare.
+ * Îl numim după strada pe care a căzut degetul și îi atașăm stațiile din jur,
+ * ca planificatorul să aleagă singur pe care se coboară mai repede.
+ */
+export function pointHit(net: Network, places: Places | null, lon: number, lat: number): SearchHit {
+  const near = nearestStops(net, lon, lat);
+  const street = streetAt(places, lon, lat);
+  const onStreet = street && street.distance < 120 ? street.street : null;
+  const walk = near[0]?.walk ?? 0;
+  return {
+    kind: 'point',
+    stopKey: near[0]?.stop.key ?? '',
+    title: onStreet ? onStreet.name : 'Punct pe hartă',
+    subtitle: near[0]
+      ? `punct ales pe hartă · stația ${near[0].stop.name}`
+      : 'punct ales pe hartă',
+    lon,
+    lat,
+    walk,
+    targets: near.map((n) => ({ key: n.stop.key, walk: n.walk })),
+    parts: onStreet?.parts,
+    score: 0,
+  };
 }

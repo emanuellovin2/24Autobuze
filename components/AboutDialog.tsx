@@ -6,6 +6,7 @@ export default function AboutDialog() {
   const open = useStore((s) => s.aboutOpen);
   const setOpen = useStore((s) => s.setAbout);
   const net = useStore((s) => s.net);
+  const places = useStore((s) => s.places);
   if (!open) return null;
 
   return (
@@ -16,7 +17,7 @@ export default function AboutDialog() {
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           <h2 className="text-xl font-bold">Despre acest proiect</h2>
-          <button onClick={() => setOpen(false)} className="shrink-0 rounded-lg px-2 py-1 text-sm muted hover:text-[var(--ink)]">
+          <button onClick={() => setOpen(false)} className="btn btn-ghost btn-sm shrink-0">
             închide ✕
           </button>
         </div>
@@ -36,6 +37,11 @@ export default function AboutDialog() {
               <li>Cele <strong>{net?.stops.length ?? 82} stații</strong>, cu numele și adresele lor oficiale.</li>
               <li><strong>Orarele reale</strong>: orele de plecare și duratele curselor, luate de pe site-ul operatorului.</li>
               <li>Geometria traseelor urmează <strong>străzile adevărate</strong> ale Bacăului (OpenStreetMap).</li>
+              <li>
+                <strong>{places ? `${places.streets.length} străzi` : 'Toate străzile'}</strong> din Bacău și din
+                localitățile din jur pe unde trec autobuzele: le poți căuta pe nume, iar aplicația îți spune stația cea
+                mai apropiată de ele și liniile care opresc acolo (OpenStreetMap).
+              </li>
             </ul>
           </div>
 

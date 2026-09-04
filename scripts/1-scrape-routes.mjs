@@ -89,6 +89,44 @@ function parseSchedules(raw) {
   return { LV: trips[0]?.pairs ?? [], SD: trips[1]?.pairs ?? [], dir: trips[0]?.dir ?? null };
 }
 
+/* ---------- cursele speciale spre aeroport (linia 18) ---------- *
+ * Nu au listă de stații publicată, ci doar ore de plecare pe zile ale
+ * săptămânii, din GARA sau din FNC. Le păstrăm separat, ca informație. */
+const DAYS = ['Luni', 'Marți', 'Miercuri', 'Joi', 'Vineri', 'Sâmbătă', 'Duminică'];
+
+function parseAirport(raw) {
+  const tables = raw.match(/<table[\s\S]*?<\/table>/gi) || [];
+  const days = [];
+  let cursor = 0;
+  for (const table of tables) {
+    const at = raw.indexOf(table, cursor);
+    cursor = at + table.length;
+    // ziua e scrisă în titlul dinaintea tabelului: „Marți – Traseul 18 (Aeroport)”
+    const before = decode(raw.slice(Math.max(0, at - 500), at));
+    const day = DAYS.filter((d) => before.includes(d)).pop();
+    const runs = (table.match(/<tr[\s\S]*?<\/tr>/gi) || [])
+      .map((r) => (r.match(/<t[hd][\s\S]*?<\/t[hd]>/gi) || []).map(decode))
+      .filter((cells) => cells.length >= 2 && /^\d{1,2}:\d{2}$/.test(cells[1]))
+      .map(([from, at]) => ({ from, at }))
+      .sort((a, b) => a.at.localeCompare(b.at));
+    if (day && runs.length) days.push({ day, runs });
+  }
+  return days;
+}
+
+const airportRaw = await html('traseu-18-curse-aeroport');
+const airport = {
+  ref: '18',
+  name: 'Curse Aeroport',
+  note: 'Curse speciale ale liniei 18 către Aeroportul „George Enescu”, cu ore diferite de la o zi la alta.',
+  source: BASE + 'traseu-18-curse-aeroport/',
+  days: parseAirport(airportRaw),
+};
+fs.writeFileSync('data/airport.json', JSON.stringify(airport, null, 1));
+console.log(
+  `18 aeroport: ${airport.days.map((d) => `${d.day} ${d.runs.length}`).join(', ')} -> data/airport.json`
+);
+
 const result = [];
 for (const [slug, ref] of ROUTES) {
   const raw = await html(slug);

@@ -10,7 +10,8 @@
     "data:scrape": "node scripts/1-scrape-routes.mjs",
     "data:geocode": "node scripts/2-geocode-stops.mjs",
     "data:build": "node scripts/3-build-network.mjs",
-    "data:all": "npm run data:scrape && npm run data:geocode && npm run data:build",
+    "data:places": "node scripts/4-build-places.mjs",
+    "data:all": "npm run data:scrape && npm run data:geocode && npm run data:build && npm run data:places",
     "predev": "node scripts/copy-maplibre-worker.mjs",
     "prebuild": "node scripts/copy-maplibre-worker.mjs"
   },

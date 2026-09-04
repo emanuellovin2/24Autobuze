@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useStore } from '@/lib/store';
 import { useTick } from './useTick';
 import { minutesLabel } from '@/lib/format';
@@ -26,12 +26,12 @@ export default function LinesPanel() {
   if (line) {
     return (
       <div className="flex flex-col gap-3">
-        <button onClick={() => selectLine(null)} className="self-start text-xs font-medium muted hover:text-[var(--ink)]">
+        <button onClick={() => selectLine(null)} className="btn btn-quiet btn-sm self-start">
           ← toate liniile
         </button>
 
         <div className="flex items-center gap-3">
-          <span className="grid size-12 shrink-0 place-items-center rounded-xl text-lg font-bold text-white" style={{ background: line.color }}>
+          <span className="line-badge size-12 text-lg" style={{ background: line.color }}>
             {line.ref}
           </span>
           <div className="min-w-0">
@@ -89,11 +89,8 @@ export default function LinesPanel() {
           const active = countByLine.get(l.ref) ?? 0;
           return (
             <li key={l.ref}>
-              <button
-                onClick={() => selectLine(l.ref)}
-                className="panel flex w-full items-center gap-3 rounded-xl border p-2.5 text-left transition hover:border-[color:var(--muted)]"
-              >
-                <span className="grid size-11 shrink-0 place-items-center rounded-xl text-[15px] font-bold text-white" style={{ background: l.color }}>
+              <button onClick={() => selectLine(l.ref)} className="card-button flex items-center gap-3 p-2.5" data-active={selectedLine === l.ref}>
+                <span className="line-badge size-11 text-[15px]" style={{ background: l.color }}>
                   {l.ref}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -109,6 +106,62 @@ export default function LinesPanel() {
           );
         })}
       </ul>
+
+      <AirportRuns />
+    </div>
+  );
+}
+
+/**
+ * Pe lângă cele 14 linii cu orar fix, operatorul publică și curse speciale spre
+ * aeroport, pe linia 18: ore diferite de la o zi la alta, fără listă de stații.
+ * Le arătăm ca atare, fiindcă nu pot fi simulate ca o linie obișnuită.
+ */
+function AirportRuns() {
+  const airport = useStore((s) => s.net?.airport);
+  const [open, setOpen] = useState(false);
+  const t = useTick(60);
+  if (!airport?.days.length) return null;
+
+  const today = new Intl.DateTimeFormat('ro-RO', { timeZone: 'Europe/Bucharest', weekday: 'long' }).format(new Date(t));
+
+  return (
+    <div className="panel mt-1 rounded-xl border p-3">
+      <button onClick={() => setOpen(!open)} className="flex w-full items-center gap-3 text-left">
+        <span className="line-badge size-11 text-[15px]" style={{ background: '#db2777' }}>
+          18
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-semibold">✈️ {airport.name}</span>
+          <span className="block text-xs muted">
+            {airport.days.reduce((n, d) => n + d.runs.length, 0)} curse pe săptămână, ore diferite pe zile
+          </span>
+        </span>
+        <span className="shrink-0 text-xs muted">{open ? '▲' : '▼'}</span>
+      </button>
+
+      {open && (
+        <div className="mt-3 flex flex-col gap-2">
+          <p className="text-xs muted">{airport.note}</p>
+          {airport.days.map((d) => (
+            <div key={d.day} className="flex items-start gap-2 text-xs">
+              <span
+                className={`w-20 shrink-0 font-semibold ${d.day.toLowerCase() === today.toLowerCase() ? 'text-[var(--color-brand)]' : ''}`}
+              >
+                {d.day}
+              </span>
+              <span className="flex flex-wrap gap-1">
+                {d.runs.map((r, i) => (
+                  <span key={i} className="rounded-md border px-1.5 py-0.5 tabular-nums" style={{ borderColor: 'var(--line)' }}>
+                    {r.at} <span className="muted">{r.from}</span>
+                  </span>
+                ))}
+              </span>
+            </div>
+          ))}
+          <p className="text-[11px] muted">Orele sunt cele publicate de operator, fără simulare.</p>
+        </div>
+      )}
     </div>
   );
 }

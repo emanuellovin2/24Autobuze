@@ -12,13 +12,15 @@ Este un **proiect conceptual**: autobuzele din Bacău nu au (încă) GPS public,
 
 Aplicația are un singur fir, cel pe care îl are și călătorul în cap:
 
-1. **„Unde vrei să ajungi?”** — bara de jos. O atingi și apar locurile căutate des din Bacău (gara, mall, spital, piața, universitatea) și un câmp în care poți scrie strada, stația sau reperul. Tot acolo spui **unde te afli acum**: scrii strada ori stația, lași telefonul să găsească stația cea mai apropiată, sau atingi harta.
-2. **Ce autobuze te duc acolo** — apar toate variantele, **ordonate după care te duce primul**, cu linia, direcția, în câte minute vine autobuzul și la ce oră ajungi. Variantele cu schimbare sunt marcate ca atare.
-3. **Autobuzul ales** — după ce îl atingi, apare pe hartă cu **un pin portocaliu mare**, cu minutele scrise sub el și cu un halou care pulsează, ca să nu îl pierzi din ochi. Etapa (de unde urci până unde cobori) e desenată gros peste rețea; harta îl readuce singură în cadru dacă iese.
+1. **„Unde vrei să ajungi?”** — bara de jos. O atingi și apar locurile căutate des din Bacău (gara, mall, spital, piața, universitatea) și un câmp în care poți scrie **oricare dintre cele 371 de străzi ale orașului**, o stație sau un reper. Poți și să **atingi harta** în locul unde vrei să ajungi, chiar dacă acolo nu e nicio stație: aplicația găsește strada și stațiile din jur. Tot acolo spui **unde te afli acum**: scrii strada ori stația, lași telefonul să găsească **stațiile cele mai apropiate de tine** (ți le arată pe toate, cu distanța și liniile care opresc acolo), sau atingi harta.
+2. **Ce autobuze te duc acolo** — sus scrie **care e cea mai apropiată stație de destinație** și ce linii opresc acolo, iar dedesubt apar toate variantele, **ordonate după care te duce primul**, cu linia, direcția, în câte minute vine autobuzul și la ce oră ajungi. Variantele cu schimbare sunt marcate ca atare.
+3. **Autobuzul ales** — după ce îl atingi, apare pe hartă cu **un pin portocaliu mare**, cu minutele scrise sub el și cu un halou care pulsează, ca să nu îl pierzi din ochi. Etapa (de unde urci până unde cobori) e desenată gros peste rețea; harta îl readuce singură în cadru dacă iese. În panou vezi **toate stațiile până cobori**, cu ora și minutele rămase pentru fiecare, și, la o atingere, **toată ruta liniei** până la capăt.
 4. **Cardul din colțul ecranului** — cât mai durează până la destinație și toată ruta, inclusiv schimbul: etapele parcurse bifate, cea curentă marcată „acum”, ce urmează în gri.
 5. **La schimb** — când autobuzul ajunge în stația unde trebuie să cobori, aplicația întreabă **„Vrei să continui ruta?”**. Dacă apeși *nu*, se ia de la zero. Dacă apeși *da*, apar autobuzele care pleacă din acea stație în direcția destinației, cu timpii lor — exact ca la pasul 2 — și, după ce alegi, din nou pinul pe hartă. La fel la fiecare schimb.
 
-În afara călătoriei, două panouri secundare: **Stația mea** (panoul de sosiri, ca afișajul din stație) și **Toate liniile** (traseele și stațiile fiecărei linii).
+**Orice autobuz de pe hartă** poate fi atins direct, fără să pornești o călătorie: apare un cartonaș cu linia, întârzierea, aglomerarea și **toată ruta lui** — fiecare stație cu ora ei, cele prin care a trecut deja bifate — iar traseul întreg al cursei se desenează pe hartă.
+
+În afara călătoriei, două panouri secundare: **Stația mea** (panoul de sosiri, ca afișajul din stație) și **Toate liniile** (traseele și stațiile fiecărei linii, plus cursele speciale spre aeroport).
 
 ## Aplicație instalabilă (PWA)
 
@@ -32,7 +34,8 @@ Iconițele se regenerează cu `node scripts/make-icons.mjs` (desenate în cod, f
 
 | | |
 |---|---|
-| **Harta completă** | Toate cele 14 linii urbane, cu traseele desenate pe străzile reale ale Bacăului, și toate cele 82 de stații. |
+| **Harta completă** | Toate cele 14 linii urbane, cu traseele desenate pe străzile reale ale Bacăului, și toate cele 82 de stații. Plus cursele speciale spre aeroport, cu orarul lor pe zile. |
+| **Toate străzile** | 371 de străzi din Bacău și din localitățile din jur pe unde trec autobuzele. Cauți strada („mioritei”, fără „strada”), iar aplicația îți spune stația cea mai apropiată de ea, cât mergi pe jos și ce linii opresc acolo. |
 | **Autobuze live** | Cercuri verzi cu numărul liniei, care se deplasează în timp real pe traseu. Atingi unul și vezi unde e, ce întârziere are și cât mai are până la tine. |
 | **Repere, nu doar stații** | Scrii „mall”, „gară”, „spital”, „Luceafărul”, „Auchan”. Pentru un reper, aplicația alege singură stația de coborâre care te duce cel mai repede acolo, cu tot cu minutele de mers pe jos. |
 | **Comenzi de timp** | Ceasul simulării poate fi pus pe pauză, accelerat (×5, ×20) sau mutat la o anumită oră — util ca să vezi o călătorie întreagă, cu schimb cu tot, în câteva secunde. |
@@ -45,10 +48,12 @@ Distincția contează, așa că e scrisă și în aplicație, la butonul **„?�
 **Real** — preluat de pe [transportpublicbc.ro](https://transportpublicbc.ro/trasee/):
 - cele 14 linii urbane (3, 4, 5, 6, 14, 17, 17B, 18, 18B, 18J, 22, 22B, 22J, 22S) și capetele lor;
 - lista completă de stații pentru fiecare sens, cu numele și adresele oficiale;
-- **orarele**: orele de plecare din capăt și durata fiecărei curse, separat pentru zilele lucrătoare și pentru weekend.
+- **orarele**: orele de plecare din capăt și durata fiecărei curse, separat pentru zilele lucrătoare și pentru weekend;
+- **cursele speciale spre aeroport** de pe linia 18, cu orele publicate pentru fiecare zi a săptămânii (nu sunt simulate: nu au listă de stații publicată, așa că apar doar ca orar, în „Toate liniile”).
 
 Real, din [OpenStreetMap](https://www.openstreetmap.org/):
 - geometria străzilor Bacăului și adresele folosite pentru poziționarea stațiilor;
+- **lista completă a străzilor cu nume** din municipiu (și din satele vecine pe unde trec autobuzele), cu geometria fiecăreia — de aici iese căutarea pe stradă și stația cea mai apropiată de ea;
 - traseele urmează drumurile adevărate, calculate cu [OSRM](https://project-osrm.org/).
 
 **Simulat**:
@@ -78,7 +83,9 @@ lib/sim/planner.ts    rute directe și cu un schimb
 lib/sim/ride.ts       starea cursei alese (aștept / sunt în autobuz / am coborât)
 lib/sim/clock.ts      ceasul simulării
 lib/store.ts          firul călătoriei: căutare → opțiuni → urmărire → schimb
+lib/places.ts         străzile orașului și stațiile din jurul lor
 components/MapView.tsx  randare MapLibre
+components/BusRoute.tsx toată ruta unui autobuz, stație cu stație
 ```
 
 ---
@@ -94,7 +101,7 @@ Se deschide pe http://localhost:3000. Nu are nevoie de nicio cheie API și de ni
 
 ## Regenerarea datelor
 
-Rețeaua este deja generată în `public/network.json` și inclusă în repo, deci build-ul nu apelează servicii externe. Dacă operatorul își schimbă traseele:
+Rețeaua (`public/network.json`) și străzile (`public/places.json`) sunt deja generate și incluse în repo, deci build-ul nu apelează servicii externe. Dacă operatorul își schimbă traseele:
 
 ```bash
 npm run data:all
@@ -107,6 +114,7 @@ Se execută cei trei pași, fiecare rulabil și separat:
 | 1 | `npm run data:scrape` | Extrage traseele și orarele de pe site-ul operatorului (paginile se salvează în `data/.route-cache/`, ca rulările următoare să nu mai ceară nimic de la serverul lor) → `data/routes.raw.json` |
 | 2 | `npm run data:geocode` | Dă coordonate celor 217 peroane, folosind adresele și geometria străzilor din OSM → `data/stops.json`, `data/platforms.json` |
 | 3 | `npm run data:build` | Calculează traseele pe străzi cu OSRM și scrie `public/network.json` |
+| 4 | `npm run data:places` | Ia din OpenStreetMap toate străzile cu nume din Bacău, lipește segmentele fiecăreia și calculează stațiile de lângă ele → `public/places.json` |
 
 Pasul 3 afișează avertismente pentru stațiile care ies de pe traseu sau pentru trasee suspect de lungi — utile ca să prinzi o stație plasată greșit.
 

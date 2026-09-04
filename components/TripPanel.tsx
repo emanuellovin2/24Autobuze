@@ -1,10 +1,11 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useStore } from '@/lib/store';
 import { useTick } from './useTick';
 import PlaceSearch from './PlaceSearch';
 import OriginPicker from './OriginPicker';
+import BusRoute from './BusRoute';
 import { popularDestinations, type SearchHit } from '@/lib/search';
 import { planJourney, type Journey } from '@/lib/sim/planner';
 import { rideStatus } from '@/lib/sim/ride';
@@ -29,35 +30,35 @@ export default function TripPanel() {
 function Idle() {
   const startTrip = useStore((s) => s.startTrip);
   const setExplore = useStore((s) => s.setExplore);
+  const net = useStore((s) => s.net);
+  const places = useStore((s) => s.places);
 
   return (
     <div className="flex flex-col gap-2.5">
-      <button
-        onClick={startTrip}
-        className="flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3.5 text-left transition active:scale-[0.99]"
-        style={{ borderColor: 'var(--color-brand)', background: 'var(--panel)' }}
-      >
-        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[var(--color-brand)] text-lg">🔎</span>
+      <button onClick={startTrip} className="btn btn-primary btn-lg w-full justify-start gap-3 rounded-2xl px-4 py-4 text-left">
+        <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-white/20 text-lg">🔎</span>
         <span className="min-w-0 flex-1">
           <span className="block text-[17px] font-bold leading-tight">Unde vrei să ajungi?</span>
-          <span className="block truncate text-xs muted">Îți spun ce autobuz ajunge primul și îl urmărești pe hartă</span>
+          <span className="block truncate text-xs font-medium text-white/85">
+            Strada, stația sau un reper — îți spun ce autobuz ajunge primul
+          </span>
         </span>
+        <span className="shrink-0 text-lg">›</span>
       </button>
 
       <div className="flex gap-2">
-        <button
-          onClick={() => setExplore('statia')}
-          className="panel flex-1 rounded-xl border px-3 py-2 text-[13px] font-semibold transition hover:border-[color:var(--muted)]"
-        >
+        <button onClick={() => setExplore('statia')} className="btn btn-ghost flex-1">
           🚏 Stația mea
         </button>
-        <button
-          onClick={() => setExplore('linii')}
-          className="panel flex-1 rounded-xl border px-3 py-2 text-[13px] font-semibold transition hover:border-[color:var(--muted)]"
-        >
+        <button onClick={() => setExplore('linii')} className="btn btn-ghost flex-1">
           🚌 Toate liniile
         </button>
       </div>
+
+      <p className="px-1 text-[11px] muted">
+        {net ? `${net.lines.length} linii · ${net.stops.length} stații` : 'se încarcă rețeaua'}
+        {places ? ` · ${places.streets.length} străzi din Bacău` : ''}
+      </p>
     </div>
   );
 }
@@ -70,6 +71,8 @@ function Search() {
   const fromKey = useStore((s) => s.fromKey);
   const setDestination = useStore((s) => s.setDestination);
   const resetTrip = useStore((s) => s.resetTrip);
+  const pickMode = useStore((s) => s.pickMode);
+  const setPickMode = useStore((s) => s.setPickMode);
   const popular = useMemo(() => (net ? popularDestinations(net) : []), [net]);
 
   // destinația e aleasă, dar nu știm de unde pleacă: întrebăm doar asta
@@ -95,11 +98,7 @@ function Search() {
             <p className="text-[11px] font-semibold uppercase tracking-wide muted">Locuri căutate des</p>
             <div className="flex flex-wrap gap-1.5">
               {popular.map((h) => (
-                <button
-                  key={h.title}
-                  onClick={() => setDestination(h)}
-                  className="panel flex items-center gap-1.5 rounded-full border px-3 py-2 text-[13px] font-medium transition hover:border-[color:var(--color-brand)]"
-                >
+                <button key={h.title} onClick={() => setDestination(h)} className="chip">
                   <span aria-hidden>{catIcon(h.subtitle)}</span>
                   {h.title}
                 </button>
@@ -108,6 +107,14 @@ function Search() {
           </div>
         }
       />
+
+      <button
+        onClick={() => setPickMode(pickMode === 'dest' ? 'none' : 'dest')}
+        className="btn btn-ghost w-full"
+        data-active={pickMode === 'dest'}
+      >
+        🗺️ {pickMode === 'dest' ? 'Atinge harta unde vrei să ajungi' : 'Arată pe hartă unde vrei să ajungi'}
+      </button>
 
       <div className="border-t pt-3" style={{ borderColor: 'var(--line)' }}>
         <OriginPicker compact />
@@ -138,7 +145,9 @@ function Options() {
     [sim, fromKey, destination, slot]
   );
   const now = sim ? localTime(t).secOfDay : 0;
-  const fromName = net?.stops.find((s) => s.key === fromKey)?.name ?? '';
+  const fromStop = net?.stops.find((s) => s.key === fromKey);
+  const fromName = fromStop?.name ?? '';
+  const destStop = net?.stops.find((s) => s.key === destination?.targets[0]?.key);
   // se poate întâmpla după un schimb: stația de coborâre e chiar lângă destinație
   const alreadyThere = !!destination?.targets.some((x) => x.key === fromKey);
 
@@ -146,19 +155,29 @@ function Options() {
     <div className="flex flex-col gap-3">
       <Head
         title={done.length ? `Continui spre ${destination?.title}` : `Spre ${destination?.title}`}
-        subtitle={fromName ? `pleci din stația ${fromName} · care ajunge primul` : undefined}
+        subtitle={
+          fromName
+            ? `pleci din stația ${fromName}${fromStop?.lines.length ? ` · liniile ${fromStop.lines.join(', ')}` : ''}`
+            : undefined
+        }
         onClose={resetTrip}
         onBack={done.length ? undefined : startTrip}
       />
+
+      {destStop && !alreadyThere && (
+        <p className="panel rounded-xl border px-3 py-2 text-xs muted">
+          Cea mai apropiată stație de <strong className="font-semibold text-[var(--ink)]">{destination?.title}</strong>{' '}
+          este <strong className="font-semibold text-[var(--ink)]">{destStop.name}</strong>
+          {destination?.targets[0]?.walk ? ` · ${walkLabel(destination.targets[0].walk)}` : ''} · liniile{' '}
+          {destStop.lines.join(', ')}
+        </p>
+      )}
 
       {alreadyThere && (
         <div className="panel rounded-xl border p-4 text-sm">
           <p className="font-semibold">Ești deja la {destination?.title}.</p>
           <p className="mt-1 muted">Stația {fromName} e chiar acolo — nu mai ai nevoie de autobuz.</p>
-          <button
-            onClick={resetTrip}
-            className="mt-3 w-full rounded-xl bg-[var(--color-brand)] px-3 py-2.5 text-sm font-bold text-white"
-          >
+          <button onClick={resetTrip} className="btn btn-primary mt-3 w-full">
             Călătorie nouă
           </button>
         </div>
@@ -180,7 +199,7 @@ function Options() {
       </ul>
 
       {journeys.length > 0 && (
-        <p className="text-xs muted">Atinge autobuzul cu care vrei să mergi — îl marchez pe hartă și îți spun când ajunge.</p>
+        <p className="text-xs muted">Atinge autobuzul cu care vrei să mergi — îl marchez pe hartă și îi vezi toată ruta.</p>
       )}
     </div>
   );
@@ -189,14 +208,9 @@ function Options() {
 function JourneyOption({ journey, now, best, onChoose }: { journey: Journey; now: number; best: boolean; onChoose: () => void }) {
   const first = journey.legs[0];
   return (
-    <button
-      onClick={onChoose}
-      className={`panel w-full rounded-xl border p-3 text-left transition active:scale-[0.99] hover:border-[color:var(--muted)] ${
-        best ? 'border-[color:var(--color-brand)] ring-1 ring-[color:var(--color-brand)]/25' : ''
-      }`}
-    >
+    <button onClick={onChoose} className="card-button p-3" data-best={best}>
       <div className="flex items-center gap-3">
-        <span className="grid size-12 shrink-0 place-items-center rounded-xl text-base font-bold text-white" style={{ background: first.color }}>
+        <span className="line-badge size-12 text-base" style={{ background: first.color }}>
           {first.line}
         </span>
 
@@ -240,9 +254,7 @@ function JourneyOption({ journey, now, best, onChoose }: { journey: Journey; now
         </span>
       </div>
 
-      {journey.walk > 60 && (
-        <p className="mt-1 text-[11px] muted">după coborâre mai ai {walkLabel(journey.walk)}</p>
-      )}
+      {journey.walk > 60 && <p className="mt-1 text-[11px] muted">după coborâre mai ai {walkLabel(journey.walk)}</p>}
     </button>
   );
 }
@@ -256,6 +268,7 @@ function Riding() {
   const backToOptions = useStore((s) => s.backToOptions);
   const resetTrip = useStore((s) => s.resetTrip);
   const t = useTick(1);
+  const [allStops, setAllStops] = useState(false);
 
   const status = useMemo(() => (sim && ride ? rideStatus(sim, ride, t) : null), [sim, ride, t]);
   if (!ride || !status) return null;
@@ -267,7 +280,7 @@ function Riding() {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex items-center gap-3">
-        <span className="grid size-12 shrink-0 place-items-center rounded-xl text-base font-bold text-white" style={{ background: leg.color }}>
+        <span className="line-badge size-12 text-base" style={{ background: leg.color }}>
           {leg.line}
         </span>
         <div className="min-w-0 flex-1">
@@ -298,14 +311,19 @@ function Riding() {
         </span>
       </div>
 
+      {/* toată ruta autobuzului ales, stație cu stație */}
+      <div className="panel rounded-xl border p-3">
+        <BusRoute vehicleId={leg.vehicleId} fromKey={leg.fromKey} toKey={leg.toKey} onlyBetween={!allStops} />
+        <button onClick={() => setAllStops(!allStops)} className="btn btn-quiet btn-sm mt-1 w-full">
+          {allStops ? 'arată doar drumul meu' : `arată toată ruta liniei ${leg.line}`}
+        </button>
+      </div>
+
       <div className="flex gap-2">
-        <button
-          onClick={backToOptions}
-          className="panel flex-1 rounded-xl border px-3 py-2.5 text-sm font-semibold transition hover:border-[color:var(--muted)]"
-        >
+        <button onClick={backToOptions} className="btn btn-ghost flex-1">
           Alt autobuz
         </button>
-        <button onClick={resetTrip} className="flex-1 rounded-xl px-3 py-2.5 text-sm font-semibold text-white transition hover:opacity-90" style={{ background: 'var(--muted)' }}>
+        <button onClick={resetTrip} className="btn btn-quiet flex-1">
           Renunț
         </button>
       </div>
@@ -340,16 +358,10 @@ function Transfer() {
         </p>
 
         <div className="mt-3 flex gap-2">
-          <button
-            onClick={continueTrip}
-            className="flex-1 rounded-xl bg-[var(--color-brand)] px-3 py-3 text-sm font-bold text-white transition hover:opacity-90"
-          >
+          <button onClick={continueTrip} className="btn btn-primary btn-lg flex-1">
             Da, continui
           </button>
-          <button
-            onClick={resetTrip}
-            className="panel flex-1 rounded-xl border px-3 py-3 text-sm font-semibold transition hover:border-[color:var(--muted)]"
-          >
+          <button onClick={resetTrip} className="btn btn-ghost btn-lg flex-1">
             Nu, am terminat
           </button>
         </div>
@@ -374,10 +386,7 @@ function Arrived() {
         <p className="mt-1 text-sm muted">
           Ai coborât la {ride?.leg.toName}.{walk > 60 ? ` Mai ai ${walkLabel(walk)} până la destinație.` : ''}
         </p>
-        <button
-          onClick={resetTrip}
-          className="mt-3 w-full rounded-xl bg-[var(--color-brand)] px-3 py-3 text-sm font-bold text-white transition hover:opacity-90"
-        >
+        <button onClick={resetTrip} className="btn btn-primary btn-lg mt-3 w-full">
           Călătorie nouă
         </button>
       </div>
@@ -391,7 +400,7 @@ function Head({ title, subtitle, onClose, onBack }: { title: string; subtitle?: 
   return (
     <div className="flex items-start gap-2">
       {onBack && (
-        <button onClick={onBack} className="panel grid size-8 shrink-0 place-items-center rounded-lg border text-sm" title="Înapoi">
+        <button onClick={onBack} className="btn btn-ghost btn-icon-sm shrink-0" title="Înapoi">
           ←
         </button>
       )}
@@ -399,7 +408,7 @@ function Head({ title, subtitle, onClose, onBack }: { title: string; subtitle?: 
         <h2 className="truncate text-[17px] font-bold leading-tight">{title}</h2>
         {subtitle && <p className="truncate text-xs muted">{subtitle}</p>}
       </div>
-      <button onClick={onClose} className="panel grid size-8 shrink-0 place-items-center rounded-lg border text-sm" title="Închide">
+      <button onClick={onClose} className="btn btn-ghost btn-icon-sm shrink-0" title="Închide">
         ✕
       </button>
     </div>

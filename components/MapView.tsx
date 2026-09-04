@@ -5,7 +5,7 @@ import * as maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { useStore } from '@/lib/store';
 import { clock } from '@/lib/sim/clock';
-import { nearestStop, stopHit } from '@/lib/search';
+import { stopHit } from '@/lib/search';
 import { iconId, pinId, registerBusIcons } from './busIcons';
 import { minutesLabel } from '@/lib/format';
 import type { Vehicle } from '@/lib/types';
@@ -21,12 +21,41 @@ const BACAU: [number, number] = [26.9146, 46.5671];
 maplibregl.setWorkerUrl('/maplibre/maplibre-gl-worker.mjs');
 const empty = { type: 'FeatureCollection', features: [] } as GeoJSON.FeatureCollection;
 
+/** stilul de fundal e citit și parsat: se pot adăuga surse și straturi proprii */
+function styleReady(m: maplibregl.Map): boolean {
+  try {
+    return !!m.getStyle()?.layers?.length;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Marginile cerute la încadrare nu au voie să depășească pânza hărții: dacă le
+ * depășesc, `fitBounds` refuză mișcarea și lasă cadrul neschimbat. Tot aici ne
+ * asigurăm că pânza are dimensiunea reală a containerului — după o rotire a
+ * telefonului sau o redimensionare a ferestrei poate rămâne în urmă.
+ */
+function padding(m: maplibregl.Map, top: number, bottom: number, side: number) {
+  const box = m.getContainer();
+  const canvas = m.getCanvas();
+  if (Math.abs(canvas.clientWidth - box.clientWidth) > 1 || Math.abs(canvas.clientHeight - box.clientHeight) > 1) {
+    m.resize();
+  }
+  const w = m.getCanvas().clientWidth || 320;
+  const h = m.getCanvas().clientHeight || 320;
+  const v = Math.min(1, (h * 0.6) / Math.max(1, top + bottom));
+  const s = Math.min(1, (w * 0.6) / Math.max(1, side * 2));
+  return { top: top * v, bottom: bottom * v, left: side * s, right: side * s };
+}
+
 export default function MapView() {
   const ref = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const ready = useRef(false);
   const fitted = useRef(false);
   const lastRecentre = useRef(0);
+  const retry = useRef<number | undefined>(undefined);
 
   const net = useStore((s) => s.net);
   const sim = useStore((s) => s.sim);
@@ -69,6 +98,52 @@ export default function MapView() {
 
     (m.getSource('picked') as maplibregl.GeoJSONSource | undefined)?.setData({ type: 'FeatureCollection', features: picked });
 
+    // strada aleasă ca destinație, conturată ca să se vadă unde ajungi
+    const streetFeatures: GeoJSON.Feature[] =
+      st.destination?.parts?.map((part) => ({
+        type: 'Feature' as const,
+        properties: {},
+        geometry: { type: 'LineString' as const, coordinates: part },
+      })) ?? [];
+    (m.getSource('street') as maplibregl.GeoJSONSource | undefined)?.setData({
+      type: 'FeatureCollection',
+      features: streetFeatures,
+    });
+
+    /* ruta întreagă a autobuzului atins pe hartă: traseul lui, de la un capăt
+     * la altul, plus stațiile prin care mai trece */
+    const focus = !st.ride && st.selectedVehicle ? st.selectedVehicle.split('|') : null;
+    const pd = focus ? st.sim.dirs.get(`${focus[0]}|${focus[1]}`) : null;
+    (m.getSource('vroute') as maplibregl.GeoJSONSource | undefined)?.setData(
+      pd
+        ? {
+            type: 'FeatureCollection',
+            features: [
+              { type: 'Feature', properties: { color: pd.line.color }, geometry: { type: 'LineString', coordinates: pd.dir.shape } },
+            ],
+          }
+        : empty
+    );
+    (m.getSource('vroute-stops') as maplibregl.GeoJSONSource | undefined)?.setData(
+      pd
+        ? {
+            type: 'FeatureCollection',
+            features: pd.dir.stops.flatMap((s) => {
+              const stop = st.net!.stops.find((x) => x.key === s.key);
+              return stop
+                ? [
+                    {
+                      type: 'Feature' as const,
+                      properties: { name: stop.name, color: pd.line.color },
+                      geometry: { type: 'Point' as const, coordinates: [stop.lon, stop.lat] },
+                    },
+                  ]
+                : [];
+            }),
+          }
+        : empty
+    );
+
     // etapa curentă, desenată gros peste restul rețelei
     const legPath = st.ride ? st.sim.pathBetween(st.ride.leg.line, st.ride.leg.dir, st.ride.leg.fromKey, st.ride.leg.toKey) : [];
     (m.getSource('leg') as maplibregl.GeoJSONSource | undefined)?.setData(
@@ -93,10 +168,18 @@ export default function MapView() {
     const state = useStore.getState();
     if (!m) return;
     if (!state.net) return; // efectul pe [net] va reveni
-    if (!m.isStyleLoaded()) {
+    /* `isStyleLoaded()` rămâne fals cât timp se descarcă dalele — pe o conexiune
+     * proastă, minute întregi. Nouă ne trebuie doar definiția stilului, ca să
+     * putem pune surse și straturi peste ea. Iar `styledata` poate să nu mai
+     * apară deloc dacă stilul tocmai s-a încărcat, deci ținem și o reîncercare
+     * pe ceas. */
+    if (!styleReady(m)) {
       m.once('styledata', buildLayers);
+      window.clearTimeout(retry.current);
+      retry.current = window.setTimeout(buildLayers, 250);
       return;
     }
+    window.clearTimeout(retry.current);
     if (ready.current && m.getLayer('vehicles')) return;
 
     registerBusIcons(m, state.net.lines.map((l) => l.ref));
@@ -122,6 +205,9 @@ export default function MapView() {
     add('stops', { type: 'FeatureCollection', features: stops });
     add('vehicles', empty);
     add('leg', empty);
+    add('street', empty);
+    add('vroute', empty);
+    add('vroute-stops', empty);
     add('trace', empty);
     add('picked', empty);
     add('tracked', empty);
@@ -163,6 +249,52 @@ export default function MapView() {
         'line-color': ['get', 'color'],
         'line-width': ['interpolate', ['linear'], ['zoom'], 11, 3, 15, 6],
         'line-opacity': 0.85,
+      },
+    });
+    // traseul întreg al autobuzului atins pe hartă
+    layer({
+      id: 'vroute-casing',
+      type: 'line',
+      source: 'vroute',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': dark ? '#0b1220' : '#ffffff',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 6, 15, 12],
+        'line-opacity': 0.85,
+      },
+    });
+    layer({
+      id: 'vroute-line',
+      type: 'line',
+      source: 'vroute',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': ['get', 'color'],
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 3.5, 15, 7],
+        'line-opacity': 0.95,
+      },
+    });
+    layer({
+      id: 'vroute-stops',
+      type: 'circle',
+      source: 'vroute-stops',
+      paint: {
+        'circle-radius': ['interpolate', ['linear'], ['zoom'], 11, 3, 15, 6],
+        'circle-color': dark ? '#0b1220' : '#ffffff',
+        'circle-stroke-color': ['get', 'color'],
+        'circle-stroke-width': 2.5,
+      },
+    });
+    // strada aleasă ca destinație
+    layer({
+      id: 'street-line',
+      type: 'line',
+      source: 'street',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: {
+        'line-color': '#dc2626',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 11, 4, 16, 10],
+        'line-opacity': 0.55,
       },
     });
     // etapa aleasă: de unde urci până unde cobori
@@ -327,10 +459,30 @@ export default function MapView() {
       m.on('mouseenter', id, () => (m.getCanvas().style.cursor = 'pointer'));
       m.on('mouseleave', id, () => (m.getCanvas().style.cursor = ''));
     }
+    /* Ordinea în care MapLibre livrează clicurile (întâi harta, apoi straturile)
+     * s-a schimbat de la o versiune la alta, așa că fiecare handler verifică și
+     * modul de alegere, și dacă altcineva a preluat deja atingerea. */
+    m.on('click', (e) => {
+      const st = useStore.getState();
+      if (st.pickMode === 'none' || e.defaultPrevented) return;
+      e.preventDefault();
+      // dacă degetul a căzut pe o stație, aceea e alegerea; altfel e punctul de pe hartă
+      const onStop = m.queryRenderedFeatures(e.point, { layers: ['stops-circle'] })[0]?.properties?.key as string | undefined;
+      if (onStop) applyPick(onStop);
+      else st.pickOnMap(e.lngLat.lng, e.lngLat.lat);
+    });
     m.on('click', 'vehicles', (e) => {
       // când utilizatorul alege un punct pe hartă, un autobuz care trece peste
       // locul atins nu trebuie să fure atingerea
-      if (useStore.getState().pickMode !== 'none') return;
+      if (useStore.getState().pickMode !== 'none' || e.defaultPrevented) return;
+      const id = e.features?.[0]?.properties?.id as string | undefined;
+      if (id) {
+        useStore.getState().selectVehicle(id);
+        e.preventDefault();
+      }
+    });
+    m.on('click', 'tracked-pin', (e) => {
+      if (useStore.getState().pickMode !== 'none' || e.defaultPrevented) return;
       const id = e.features?.[0]?.properties?.id as string | undefined;
       if (id) {
         useStore.getState().selectVehicle(id);
@@ -338,28 +490,24 @@ export default function MapView() {
       }
     });
     m.on('click', 'stops-circle', (e) => {
+      if (useStore.getState().pickMode !== 'none' || e.defaultPrevented) return;
       const key = e.features?.[0]?.properties?.key as string | undefined;
       if (key) {
         applyPick(key);
         e.preventDefault();
       }
     });
-    m.on('click', (e) => {
-      if (e.defaultPrevented) return;
-      const st = useStore.getState();
-      if (st.pickMode === 'none') return;
-      const near = nearestStop(st.net!, e.lngLat.lng, e.lngLat.lat);
-      applyPick(near.stop.key);
-    });
 
     ready.current = true;
     syncSelection();
 
-    // la prima construcție încadrăm întreg orașul, ca utilizatorul să vadă toată rețeaua
-    if (!fitted.current) {
+    // la prima construcție încadrăm întreg orașul, ca utilizatorul să vadă toată rețeaua.
+    // Dacă straturile s-au construit târziu, iar omul a apucat deja să aleagă ceva,
+    // nu îi stricăm cadrul.
+    if (!fitted.current && !state.destination && !state.fromKey) {
       const b = new maplibregl.LngLatBounds();
       for (const st of state.net.stops) b.extend([st.lon, st.lat]);
-      m.fitBounds(b, { padding: { top: 90, bottom: 70, left: 50, right: 50 }, duration: 0 });
+      m.fitBounds(b, { padding: padding(m, 90, 70, 50), duration: 0 });
       fitted.current = true;
     }
   }
@@ -404,6 +552,7 @@ export default function MapView() {
 
     return () => {
       ro.disconnect();
+      window.clearTimeout(retry.current);
       m.remove();
       map.current = null;
     };
@@ -530,7 +679,7 @@ export default function MapView() {
     if (!line) return;
     const b = new maplibregl.LngLatBounds();
     for (const d of line.directions) for (const c of d.shape) b.extend(c as [number, number]);
-    m.fitBounds(b, { padding: { top: 80, bottom: 120, left: 60, right: 60 }, duration: 900 });
+    m.fitBounds(b, { padding: padding(m, 80, 120, 60), duration: 900 });
   }, [selectedLine]);
 
   /* la alegerea unui autobuz, arătăm dintr-o privire tot drumul acelei etape */
@@ -545,19 +694,51 @@ export default function MapView() {
     if (v) b.extend([v.lon, v.lat]);
     if (!b.isEmpty()) {
       lastRecentre.current = Date.now() + 6000;
-      m.fitBounds(b, { padding: { top: 150, bottom: 260, left: 40, right: 40 }, duration: 900, maxZoom: 15.5 });
+      m.fitBounds(b, { padding: padding(m, 150, 260, 40), duration: 900, maxZoom: 15.5 });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ride?.leg.vehicleId]);
 
-  /* centrează pe stația de plecare aleasă */
+  /* la atingerea unui autobuz, aducem în cadru tot traseul lui */
   useEffect(() => {
     const m = map.current;
     const st = useStore.getState();
-    if (!m || !fromKey || st.ride || !st.net) return;
-    const s = st.net.stops.find((x) => x.key === fromKey);
-    if (s) m.easeTo({ center: [s.lon, s.lat], zoom: Math.max(m.getZoom(), 14.5), duration: 800 });
-  }, [fromKey]);
+    if (!m || !selectedVehicle || st.ride || !st.sim) return;
+    const [ref, dirId] = selectedVehicle.split('|');
+    const pd = st.sim.dirs.get(`${ref}|${dirId}`);
+    if (!pd) return;
+    const b = new maplibregl.LngLatBounds();
+    for (const c of pd.dir.shape) b.extend(c as [number, number]);
+    lastRecentre.current = Date.now() + 6000;
+    m.fitBounds(b, { padding: padding(m, 110, 220, 40), duration: 900, maxZoom: 14.5 });
+  }, [selectedVehicle]);
+
+  /* încadrează plecarea și destinația, ca omul să vadă dintr-o privire drumul */
+  useEffect(() => {
+    const m = map.current;
+    const st = useStore.getState();
+    if (!m || st.ride || !st.net) return;
+
+    const start = st.net.stops.find((x) => x.key === fromKey);
+    const b = new maplibregl.LngLatBounds();
+    if (start) b.extend([start.lon, start.lat]);
+    if (st.destination) {
+      b.extend([st.destination.lon, st.destination.lat]);
+      for (const part of st.destination.parts ?? []) for (const c of part) b.extend(c as [number, number]);
+      // stațiile de coborâre intră și ele în cadru: acolo se termină drumul
+      for (const t of st.destination.targets) {
+        const s = st.net.stops.find((x) => x.key === t.key);
+        if (s) b.extend([s.lon, s.lat]);
+      }
+    }
+    if (b.isEmpty()) return;
+
+    const sw = b.getSouthWest();
+    const ne = b.getNorthEast();
+    const single = sw.lng === ne.lng && sw.lat === ne.lat;
+    if (single) m.easeTo({ center: sw, zoom: Math.max(m.getZoom(), 14.5), duration: 800 });
+    else m.fitBounds(b, { padding: padding(m, 120, 220, 50), duration: 900, maxZoom: 15 });
+  }, [fromKey, destination]);
 
   useEffect(() => {
     const m = map.current;

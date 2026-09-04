@@ -51,6 +51,209 @@ body {
   box-shadow: var(--raise);
 }
 
+/* ------------------------------------------------------------------ *
+ * Butoane
+ *
+ * Stau în stratul „components”, ca utilitarele Tailwind puse pe același
+ * element (w-full, flex-1, text-xs…) să rămână deasupra.
+ * ------------------------------------------------------------------ */
+@layer components {
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.875rem;
+    padding: 0.625rem 0.9rem;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.15;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease,
+      border-color 0.2s ease,
+      filter 0.2s ease;
+  }
+  .btn:active {
+    transform: translateY(1px) scale(0.985);
+  }
+  .btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+    transform: none;
+  }
+
+  /* butonul principal: verdele aplicației, cu lumină deasupra și umbră colorată dedesubt */
+  .btn-primary {
+    color: #fff;
+    background: linear-gradient(180deg, #22c55e 0%, var(--color-brand) 55%, var(--color-brand-dark) 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 8px 18px -9px rgb(22 163 74 / 0.9);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.06);
+  }
+
+  /* pentru „unde te afli”: aceeași formă, culoarea punctului albastru de pe hartă */
+  .btn-mine {
+    color: #fff;
+    background: linear-gradient(180deg, #3b82f6 0%, var(--color-mine) 55%, #1d4ed8 100%);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 8px 18px -9px rgb(37 99 235 / 0.9);
+  }
+  .btn-mine:hover {
+    filter: brightness(1.06);
+  }
+
+  /* butonul secundar: panou cu contur, se colorează la atingere */
+  .btn-ghost {
+    background: var(--panel);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 2px rgb(15 23 42 / 0.05);
+  }
+  .btn-ghost:hover {
+    border-color: color-mix(in srgb, var(--color-brand) 45%, var(--line));
+    background: color-mix(in srgb, var(--color-brand) 7%, var(--panel));
+  }
+
+  /* butonul discret: fără contur, doar o pată de culoare la atingere */
+  .btn-quiet {
+    background: transparent;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .btn-quiet:hover {
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+    color: var(--ink);
+  }
+
+  .btn[data-active='true'] {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 12%, var(--panel));
+    color: var(--ink);
+  }
+
+  .btn-sm {
+    padding: 0.4rem 0.7rem;
+    font-size: 12.5px;
+    border-radius: 0.7rem;
+  }
+  .btn-lg {
+    padding: 0.85rem 1.05rem;
+    font-size: 15px;
+    border-radius: 1rem;
+  }
+  /* butoanele pătrate cu o singură iconiță (temă, „?”, închide, înapoi) */
+  .btn-icon {
+    padding: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.8rem;
+    font-size: 14px;
+  }
+  .btn-icon-sm {
+    padding: 0;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.7rem;
+    font-size: 13px;
+  }
+
+  /* pastilele de sub căutare: locuri căutate des, stații frecvente, ore */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    padding: 0.5rem 0.8rem;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.12s ease,
+      background 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .chip:hover {
+    border-color: color-mix(in srgb, var(--color-brand) 55%, var(--line));
+    background: color-mix(in srgb, var(--color-brand) 8%, var(--panel));
+  }
+  .chip:active {
+    transform: scale(0.97);
+  }
+  .chip:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  .chip[data-active='true'] {
+    border-color: transparent;
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  /* cardul pe care se apasă: opțiunea de călătorie, linia, sosirea */
+  .card-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.2s ease,
+      border-color 0.2s ease;
+  }
+  .card-button:hover {
+    border-color: color-mix(in srgb, var(--color-brand) 45%, var(--line));
+    box-shadow: 0 6px 18px -12px rgb(15 23 42 / 0.5);
+  }
+  .card-button:active {
+    transform: scale(0.99);
+  }
+  .card-button:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+  .card-button[data-best='true'] {
+    border-color: var(--color-brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 18%, transparent);
+  }
+  .card-button[data-active='true'] {
+    border-color: #f59e0b;
+    box-shadow: 0 0 0 3px rgb(245 158 11 / 0.22);
+  }
+
+  /* pătratul cu numărul liniei */
+  .line-badge {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 0.8rem;
+    color: #fff;
+    font-weight: 700;
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25);
+  }
+}
+
 /* comenzile MapLibre trebuie să respecte tema aplicației */
 .maplibregl-ctrl-group {
   background: var(--panel) !important;

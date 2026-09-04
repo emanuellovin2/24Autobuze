@@ -5,6 +5,13 @@ import { useStore } from '@/lib/store';
 import { walkLabel } from '@/lib/format';
 import type { SearchHit } from '@/lib/search';
 
+const ICON: Record<SearchHit['kind'], string> = {
+  landmark: '📍',
+  stop: '🚏',
+  street: '🛣️',
+  point: '📌',
+};
+
 /**
  * Câmpul în care omul scrie unde vrea să ajungă sau unde se află: numele
  * străzii, al stației sau un reper cunoscut („mall”, „gara”, „spital”).
@@ -28,7 +35,7 @@ export default function PlaceSearch({
   const [active, setActive] = useState(0);
   const input = useRef<HTMLInputElement>(null);
 
-  const hits: SearchHit[] = useMemo(() => (search && q.trim() ? search(q, 8) : []), [search, q]);
+  const hits: SearchHit[] = useMemo(() => (search && q.trim() ? search(q, 9) : []), [search, q]);
 
   useEffect(() => {
     if (autoFocus) input.current?.focus();
@@ -56,18 +63,18 @@ export default function PlaceSearch({
             if (!hits.length) return;
             if (e.key === 'ArrowDown') setActive((a) => Math.min(a + 1, hits.length - 1));
             if (e.key === 'ArrowUp') setActive((a) => Math.max(a - 1, 0));
-            if (e.key === 'Enter') choose(hits[active]);
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              choose(hits[active]);
+            }
           }}
           placeholder={placeholder}
           enterKeyHint="search"
-          className="panel w-full rounded-xl border py-3 pl-10 pr-3 text-[15px] outline-none transition placeholder:text-[color:var(--muted)]"
-          style={{ borderColor: q ? accent : undefined }}
+          className="panel w-full rounded-xl border py-3 pl-10 pr-9 text-[15px] outline-none transition placeholder:text-[color:var(--muted)]"
+          style={{ borderColor: q ? accent : undefined, boxShadow: q ? `0 0 0 3px color-mix(in srgb, ${accent} 15%, transparent)` : undefined }}
         />
         {q && (
-          <button
-            onClick={() => setQ('')}
-            className="absolute right-2 top-1/2 grid size-7 -translate-y-1/2 place-items-center rounded-full text-xs muted"
-          >
+          <button onClick={() => setQ('')} className="btn btn-quiet btn-icon-sm absolute right-1.5 top-1/2 -translate-y-1/2" title="Șterge">
             ✕
           </button>
         )}
@@ -76,7 +83,9 @@ export default function PlaceSearch({
       {q.trim() === '' && emptyState}
 
       {q.trim() !== '' && hits.length === 0 && (
-        <p className="px-1 text-xs muted">Nu găsesc nimic cu acest nume. Încearcă strada, stația sau un reper apropiat.</p>
+        <p className="px-1 text-xs muted">
+          Nu găsesc nimic cu acest nume. Scrie numele străzii fără „strada”, numele stației sau un reper apropiat.
+        </p>
       )}
 
       {hits.length > 0 && (
@@ -89,7 +98,7 @@ export default function PlaceSearch({
                 onClick={() => choose(h)}
                 className={`flex w-full items-start gap-2.5 px-3 py-2.5 text-left ${i === active ? 'bg-black/[0.04] dark:bg-white/[0.06]' : ''}`}
               >
-                <span className="mt-0.5 text-base leading-none">{h.kind === 'landmark' ? '📍' : '🚏'}</span>
+                <span className="mt-0.5 text-base leading-none">{ICON[h.kind]}</span>
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-semibold">{h.title}</span>
                   <span className="block truncate text-xs muted">

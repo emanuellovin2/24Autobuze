@@ -75,6 +75,11 @@ export function catIcon(subtitle: string): string {
   return CAT_ICON[subtitle.split(' · ')[0]] ?? '📍';
 }
 
+/** „14, 4, 17B, 3” -> „3, 4, 14, 17B”: liniile se citesc în ordine, ca pe stație */
+export function sortLines(lines: string[]): string[] {
+  return [...lines].sort((a, b) => (parseInt(a, 10) || 0) - (parseInt(b, 10) || 0) || a.localeCompare(b));
+}
+
 /** căutare tolerantă la diacritice */
 export function fold(s: string): string {
   return s

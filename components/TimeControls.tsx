@@ -32,7 +32,7 @@ export default function TimeControls({ compact = false }: { compact?: boolean })
                 live
               </span>
             ) : (
-              <button onClick={() => clock.reset()} className="text-[10px] font-semibold uppercase tracking-wide text-amber-500">
+              <button onClick={() => clock.reset()} className="btn btn-quiet btn-sm text-[10px] font-semibold uppercase tracking-wide text-amber-500">
                 simulare · revino la live
               </button>
             )}
@@ -46,11 +46,7 @@ export default function TimeControls({ compact = false }: { compact?: boolean })
         </div>
 
         <div className="flex shrink-0 items-center gap-1">
-          <button
-            onClick={() => (clock.paused = !clock.paused)}
-            className="panel grid size-8 place-items-center rounded-lg border text-xs transition hover:border-[color:var(--muted)]"
-            title={clock.paused ? 'Continuă' : 'Pauză'}
-          >
+          <button onClick={() => (clock.paused = !clock.paused)} className="btn btn-ghost btn-icon-sm" title={clock.paused ? 'Continuă' : 'Pauză'}>
             {clock.paused ? '▶' : '❚❚'}
           </button>
           {SPEEDS.map((s) => (
@@ -60,11 +56,7 @@ export default function TimeControls({ compact = false }: { compact?: boolean })
                 clock.speed = s;
                 clock.paused = false;
               }}
-              className={`grid h-8 min-w-8 place-items-center rounded-lg border px-1.5 text-xs font-semibold transition ${
-                clock.speed === s && !clock.paused
-                  ? 'border-transparent bg-[var(--color-brand)] text-white'
-                  : 'panel hover:border-[color:var(--muted)]'
-              }`}
+              className={`btn btn-sm min-w-8 ${clock.speed === s && !clock.paused ? 'btn-primary' : 'btn-ghost'}`}
             >
               ×{s}
             </button>
@@ -78,7 +70,7 @@ export default function TimeControls({ compact = false }: { compact?: boolean })
             <button
               key={label}
               onClick={() => clock.jumpTo(min)}
-              className="panel rounded-full border px-2.5 py-1 text-[11px] font-medium transition hover:border-[color:var(--color-brand)]"
+              className="chip px-2.5 py-1 text-[11px]"
             >
               {label}
             </button>

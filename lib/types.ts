@@ -41,6 +41,15 @@ export interface Line {
   trips: Record<DayType, Record<DirId, Trip[]>>;
 }
 
+/** cursele speciale spre aeroport: doar ore de plecare, publicate pe zile */
+export interface AirportService {
+  ref: string;
+  name: string;
+  note: string;
+  source: string;
+  days: { day: string; runs: { from: string; at: string }[] }[];
+}
+
 export interface Network {
   city: string;
   operator: string;
@@ -49,6 +58,7 @@ export interface Network {
   stops: Stop[];
   landmarks: Landmark[];
   lines: Line[];
+  airport?: AirportService | null;
 }
 
 /** un autobuz aflat în circulație la un moment dat */

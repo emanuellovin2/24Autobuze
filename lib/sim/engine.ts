@@ -16,6 +16,28 @@ import { cumulative, pointAt, slice } from '../geo';
 const HOUR = 3600;
 const DAY = 24 * HOUR;
 
+/** o stație de pe ruta unei curse, cu ora din orar și minutele rămase */
+export interface StopTime {
+  key: string;
+  name: string;
+  idx: number;
+  /** ora programată de sosire, minute de la miezul nopții */
+  scheduled: number;
+  /** secunde până la sosire; negativ dacă autobuzul a trecut deja */
+  eta: number;
+  passed: boolean;
+}
+
+export interface TripRoute {
+  line: string;
+  color: string;
+  dir: DirId;
+  headsign: string;
+  /** cursa a plecat deja din capăt */
+  started: boolean;
+  stops: StopTime[];
+}
+
 export interface PreparedDir {
   line: Line;
   dir: Direction;
@@ -246,6 +268,45 @@ export class Simulation {
       }
     }
     return out.sort((a, b) => a.eta - b.eta).slice(0, limit);
+  }
+
+  /**
+   * Toată ruta unei curse: fiecare stație, cu ora din orar și cu minutele
+   * rămase până acolo. Din asta se desenează lista „toată ruta autobuzului”.
+   */
+  routeOf(vehicleId: string, ms: number): TripRoute | null {
+    const [ref, dirId, dayType, idxStr] = vehicleId.split('|');
+    const pd = this.dirs.get(`${ref}|${dirId}`);
+    if (!pd) return null;
+    const trip = pd.line.trips[dayType as DayType]?.[dirId as DirId]?.[+idxStr];
+    if (!trip) return null;
+
+    const prof = this.profile(pd, trip.dur);
+    const { secOfDay } = localTime(ms);
+    // înainte de plecarea din capăt cursa merge exact pe orar: nu are de unde
+    // să fi acumulat întârziere
+    const started = secOfDay >= trip.dep * 60;
+    const delay = started ? this.delay(vehicleId, secOfDay) : 0;
+
+    return {
+      line: pd.line.ref,
+      color: pd.line.color,
+      dir: pd.dir.id,
+      headsign: pd.dir.headsign,
+      started,
+      stops: pd.dir.stops.map((s, i) => {
+        let eta = trip.dep * 60 + prof.arr[i] + delay - secOfDay;
+        if (eta < -12 * HOUR) eta += DAY; // cursă pornită aseară
+        return {
+          key: s.key,
+          name: this.stops.get(s.key)?.name ?? s.key,
+          idx: i,
+          scheduled: Math.round((((trip.dep * 60 + prof.arr[i]) % DAY) + DAY) % DAY / 60),
+          eta,
+          passed: eta < 0,
+        };
+      }),
+    };
   }
 
   /** un singur vehicul, după id — pentru urmărirea unui autobuz selectat */

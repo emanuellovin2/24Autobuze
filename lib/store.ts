@@ -2,7 +2,8 @@
 import { create } from 'zustand';
 import type { Network } from './types';
 import { Simulation, localTime } from './sim/engine';
-import { buildSearchIndex, type SearchHit } from './search';
+import { buildSearchIndex, pointHit, type SearchHit } from './search';
+import { loadPlaces, type Places } from './places';
 import type { Journey, Leg, Target } from './sim/planner';
 
 /* ------------------------------------------------------------------ *
@@ -22,13 +23,15 @@ export type ExplorePanel = 'statia' | 'linii' | null;
 export type PickMode = 'none' | 'origin' | 'dest';
 
 export interface Destination {
-  kind: 'stop' | 'landmark';
+  kind: SearchHit['kind'];
   title: string;
   subtitle: string;
   lon: number;
   lat: number;
   /** stațiile din care se poate ajunge pe jos acolo */
   targets: Target[];
+  /** geometria străzii alese, dacă destinația e o stradă — se desenează pe hartă */
+  parts?: [number, number][][];
 }
 
 export interface Ride {
@@ -54,6 +57,7 @@ export function atClock(nowMs: number, secOfDay: number, target: number): number
 interface State {
   net: Network | null;
   sim: Simulation | null;
+  places: Places | null;
   search: ((q: string, limit?: number) => SearchHit[]) | null;
   loadError: string | null;
 
@@ -82,6 +86,8 @@ interface State {
   startTrip: () => void;
   setDestination: (hit: SearchHit) => void;
   setOrigin: (key: string) => void;
+  /** un punct atins pe hartă devine destinație (sau plecare, după pickMode) */
+  pickOnMap: (lon: number, lat: number) => void;
   chooseJourney: (j: Journey, nowMs: number) => void;
   backToOptions: () => void;
   advance: (nowMs: number) => void;
@@ -112,6 +118,7 @@ const CLEAN = {
 export const useStore = create<State>((set, get) => ({
   net: null,
   sim: null,
+  places: null,
   search: null,
   loadError: null,
 
@@ -131,6 +138,16 @@ export const useStore = create<State>((set, get) => ({
       set({ net, sim: new Simulation(net), search: buildSearchIndex(net), loadError: null });
     } catch (e) {
       set({ loadError: e instanceof Error ? e.message : 'eroare necunoscută' });
+      return;
+    }
+    // străzile ajung după rețea: harta pornește imediat, iar căutarea se
+    // îmbogățește singură când sosesc. Dacă lipsesc, aplicația merge mai departe.
+    try {
+      const places = await loadPlaces();
+      const net = get().net;
+      if (net) set({ places, search: buildSearchIndex(net, places) });
+    } catch (e) {
+      console.warn('[places]', e);
     }
   },
 
@@ -145,6 +162,7 @@ export const useStore = create<State>((set, get) => ({
         lon: hit.lon,
         lat: hit.lat,
         targets: hit.targets,
+        parts: hit.parts,
       },
       // fără punct de plecare rămânem în ecranul de căutare, ca omul să spună unde e
       stage: s.fromKey ? 'options' : 'search',
@@ -159,6 +177,14 @@ export const useStore = create<State>((set, get) => ({
       pickMode: 'none',
       explore: null,
     })),
+
+  pickOnMap: (lon, lat) => {
+    const s = get();
+    if (!s.net) return;
+    const hit = pointHit(s.net, s.places, lon, lat);
+    if (s.pickMode === 'dest') s.setDestination(hit);
+    else if (hit.stopKey) s.setOrigin(hit.stopKey);
+  },
 
   chooseJourney: (plan, nowMs) => {
     const { secOfDay } = localTime(nowMs);

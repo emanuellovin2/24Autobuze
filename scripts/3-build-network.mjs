@@ -164,6 +164,9 @@ const landmarks = JSON.parse(fs.readFileSync('data/landmarks.json', 'utf8')).map
 const far = landmarks.filter((l) => l.stops[0].walk > 700);
 if (far.length) warnings.push(`repere departe de orice stație: ${far.map((l) => `${l.name} (${l.stops[0].walk} m)`).join(', ')}`);
 
+/* cursele speciale spre aeroport: doar ore de plecare, fără listă de stații */
+const airport = fs.existsSync('data/airport.json') ? JSON.parse(fs.readFileSync('data/airport.json', 'utf8')) : null;
+
 const network = {
   city: 'Bacău',
   operator: 'Transport Public SA Bacău',
@@ -172,9 +175,10 @@ const network = {
   stops: stopList.map((s) => ({ key: s.key, name: s.name, lon: s.lon, lat: s.lat, lines: s.lines })),
   landmarks,
   lines,
+  airport,
 };
 fs.mkdirSync('public', { recursive: true });
 fs.writeFileSync('public/network.json', JSON.stringify(network));
 
-console.log(`\n${lines.length} linii, ${stopList.length} stații, ${landmarks.length} repere -> public/network.json (${(fs.statSync('public/network.json').size / 1024).toFixed(0)} KB)`);
+console.log(`\n${lines.length} linii, ${stopList.length} stații, ${landmarks.length} repere${airport ? `, ${airport.days.reduce((n, d) => n + d.runs.length, 0)} curse spre aeroport` : ''} -> public/network.json (${(fs.statSync('public/network.json').size / 1024).toFixed(0)} KB)`);
 if (warnings.length) { console.log(`\n${warnings.length} avertismente:`); warnings.forEach((w) => console.log('  ! ' + w)); }

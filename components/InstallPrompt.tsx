@@ -61,11 +61,11 @@ export default function InstallPrompt() {
             await evt.userChoice;
             setEvt(null);
           }}
-          className="shrink-0 rounded-xl bg-[var(--color-brand)] px-3 py-2 text-xs font-bold text-white"
+          className="btn btn-primary btn-sm shrink-0"
         >
           Instalează
         </button>
-        <button onClick={close} className="shrink-0 px-1 text-xs muted" title="Nu acum">
+        <button onClick={close} className="btn btn-quiet btn-icon-sm shrink-0" title="Nu acum">
           ✕
         </button>
       </div>

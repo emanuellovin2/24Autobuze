@@ -5,7 +5,7 @@
  * rulează în browser. Deci, odată instalată, poate funcționa complet offline —
  * mai puțin fundalul de hartă, care se păstrează doar pentru zonele vizitate.
  */
-const VERSION = 'v2';
+const VERSION = 'v3';
 const SHELL = `shell-${VERSION}`;
 const TILES = `tiles-${VERSION}`;
 const TILE_LIMIT = 600;
@@ -13,6 +13,7 @@ const TILE_LIMIT = 600;
 const PRECACHE = [
   '/',
   '/network.json',
+  '/places.json',
   '/manifest.webmanifest',
   '/maplibre/maplibre-gl-worker.mjs',
   '/maplibre/maplibre-gl-shared.mjs',
@@ -69,7 +70,7 @@ self.addEventListener('fetch', (event) => {
       event.respondWith(cacheFirst(req, SHELL));
       return;
     }
-    if (url.pathname === '/network.json' || url.pathname === '/manifest.webmanifest') {
+    if (url.pathname === '/network.json' || url.pathname === '/places.json' || url.pathname === '/manifest.webmanifest') {
       event.respondWith(staleWhileRevalidate(req, SHELL));
       return;
     }

@@ -2,12 +2,14 @@
 
 import { useState } from 'react';
 import { useStore } from '@/lib/store';
-import { nearestStop } from '@/lib/search';
+import { nearestStops } from '@/lib/places';
+import { walkLabel } from '@/lib/format';
+import type { Stop } from '@/lib/types';
 import PlaceSearch from './PlaceSearch';
 
 /**
  * „Unde te afli acum?” — stația de urcare. Omul poate scrie strada sau stația,
- * poate lăsa telefonul să găsească cea mai apropiată stație, sau poate atinge harta.
+ * poate lăsa telefonul să găsească stațiile cele mai apropiate, sau poate atinge harta.
  */
 export default function OriginPicker({ compact = false }: { compact?: boolean }) {
   const net = useStore((s) => s.net);
@@ -17,6 +19,8 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
   const setPickMode = useStore((s) => s.setPickMode);
   const [open, setOpen] = useState(false);
   const [geo, setGeo] = useState<'idle' | 'busy' | 'denied'>('idle');
+  /** stațiile din jurul locației telefonului, ca omul să aleagă dacă nu e cea așteptată */
+  const [around, setAround] = useState<{ stop: Stop; walk: number }[]>([]);
 
   const stop = net?.stops.find((s) => s.key === fromKey) ?? null;
 
@@ -25,8 +29,9 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
     setGeo('busy');
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const near = nearestStop(net, pos.coords.longitude, pos.coords.latitude);
-        setOrigin(near.stop.key);
+        const near = nearestStops(net, pos.coords.longitude, pos.coords.latitude, 4);
+        setAround(near);
+        if (near[0]) setOrigin(near[0].stop.key);
         setGeo('idle');
         setOpen(false);
       },
@@ -37,17 +42,33 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
 
   if (stop && !open) {
     return (
-      <button
-        onClick={() => setOpen(true)}
-        className="panel flex w-full items-center gap-2.5 rounded-xl border px-3 py-2.5 text-left transition hover:border-[color:var(--muted)]"
-      >
-        <span className="size-2.5 shrink-0 rounded-full" style={{ background: 'var(--color-mine)' }} />
-        <span className="min-w-0 flex-1">
-          <span className="block text-[11px] font-semibold uppercase tracking-wide muted">Pleci din</span>
-          <span className="block truncate text-[15px] font-semibold">{stop.name}</span>
-        </span>
-        <span className="shrink-0 text-xs muted">schimbă</span>
-      </button>
+      <div className="flex flex-col gap-2">
+        <button onClick={() => setOpen(true)} className="card-button flex items-center gap-2.5 px-3 py-2.5">
+          <span className="size-2.5 shrink-0 rounded-full" style={{ background: 'var(--color-mine)' }} />
+          <span className="min-w-0 flex-1">
+            <span className="block text-[11px] font-semibold uppercase tracking-wide muted">Pleci din</span>
+            <span className="block truncate text-[15px] font-semibold">{stop.name}</span>
+            <span className="block truncate text-[11px] muted">liniile {stop.lines.join(', ')}</span>
+          </span>
+          <span className="shrink-0 text-xs muted">schimbă</span>
+        </button>
+
+        {around.length > 1 && (
+          <div className="flex flex-wrap gap-1.5">
+            {around.map(({ stop: s, walk }) => (
+              <button
+                key={s.key}
+                onClick={() => setOrigin(s.key)}
+                className="chip"
+                data-active={s.key === fromKey}
+                title={`liniile ${s.lines.join(', ')}`}
+              >
+                {s.name} · {walk} m
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -59,7 +80,7 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
           Unde te afli acum
         </span>
         {stop && (
-          <button onClick={() => setOpen(false)} className="text-xs muted hover:text-[var(--ink)]">
+          <button onClick={() => setOpen(false)} className="btn btn-quiet btn-sm">
             renunț
           </button>
         )}
@@ -69,17 +90,13 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
         tone="mine"
         placeholder={compact ? 'Strada sau stația ta' : 'Scrie strada sau stația unde ești acum'}
         onPick={(h) => {
-          setOrigin(h.stopKey);
+          if (h.stopKey) setOrigin(h.stopKey);
           setOpen(false);
         }}
       />
 
       <div className="flex gap-2">
-        <button
-          onClick={locate}
-          className="flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
-          style={{ background: 'var(--color-mine)' }}
-        >
+        <button onClick={locate} className="btn btn-mine flex-1" disabled={geo === 'busy'}>
           {geo === 'busy' ? 'Caut poziția…' : '📍 Locația mea'}
         </button>
         <button
@@ -87,11 +104,27 @@ export default function OriginPicker({ compact = false }: { compact?: boolean })
             setPickMode(pickMode === 'origin' ? 'none' : 'origin');
             setOpen(false);
           }}
-          className="panel flex-1 rounded-xl border px-3 py-2.5 text-sm font-medium transition hover:border-[color:var(--muted)]"
+          className="btn btn-ghost flex-1"
+          data-active={pickMode === 'origin'}
         >
           Alege pe hartă
         </button>
       </div>
+
+      {around.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          <p className="text-[11px] font-semibold uppercase tracking-wide muted">Stațiile cele mai apropiate de tine</p>
+          {around.map(({ stop: s, walk }) => (
+            <button key={s.key} onClick={() => setOrigin(s.key)} className="card-button flex items-center gap-2.5 px-3 py-2">
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-sm font-semibold">{s.name}</span>
+                <span className="block truncate text-[11px] muted">liniile {s.lines.join(', ')}</span>
+              </span>
+              <span className="shrink-0 text-xs font-semibold tabular-nums">{walkLabel(walk)}</span>
+            </button>
+          ))}
+        </div>
+      )}
 
       {geo === 'denied' && (
         <p className="text-xs muted">
